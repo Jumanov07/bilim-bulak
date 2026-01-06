@@ -62,3 +62,8 @@ export const METADATA: Metadata = {
     canonical: siteUrl,
   },
 };
+
+export const LANGUAGES = [
+  { code: "ru", label: "РУС" },
+  { code: "kg", label: "КЫР" },
+];
