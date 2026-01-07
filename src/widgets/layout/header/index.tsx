@@ -15,7 +15,7 @@ export const Header = () => {
           <LangSwitcher />
 
           <Button className="bg-blue-700 rounded-xl font-medium text-sm md:text-xl py-3 px-4 md:py-4 md:px-5 h-fit w-fit">
-            {t("Кирүү")}
+            {t("common.login")}
           </Button>
         </div>
       </div>

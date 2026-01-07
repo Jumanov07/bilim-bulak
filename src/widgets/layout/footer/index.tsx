@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Instagram, MessageCircle } from "lucide-react";
 
 export const Footer = () => {
+  const t = useTranslations("footer");
+
   return (
     <>
       <hr className="mt-20 border-gray-100 border" />
@@ -21,14 +24,14 @@ export const Footer = () => {
             </div>
 
             <p className="text-sm md:text-lg font-medium mt-4 md:w-100">
-              Кыргыз Республикасынын Билим берүү, илим министрлигинин жана
-              «Билгирим» академиясынын колдоосу менен ишке ашырылган расмий
-              платформа.
+              {t("about")}
             </p>
           </div>
 
           <ul className="flex flex-col gap-4">
-            <li className="text-xl md:text-2xl font-semibold">Байланыш</li>
+            <li className="text-xl md:text-2xl font-semibold">
+              {t("contact.title")}
+            </li>
 
             <li className="text-xs md:text-base font-medium text-neutral-500">
               <Link
@@ -52,21 +55,23 @@ export const Footer = () => {
           </ul>
 
           <ul className="flex flex-col gap-4">
-            <li className="text-xl md:text-2xl font-semibold">Маалымат</li>
-
-            <li className="text-xs md:text-base font-medium text-neutral-500">
-              <Link href="/">Колдонуу эрежелери</Link>
+            <li className="text-xl md:text-2xl font-semibold">
+              {t("info.title")}
             </li>
 
             <li className="text-xs md:text-base font-medium text-neutral-500">
-              <Link href="/">Купуялуулук саясаты</Link>
+              <Link href="/terms">{t("info.terms")}</Link>
+            </li>
+
+            <li className="text-xs md:text-base font-medium text-neutral-500">
+              <Link href="/privacy">{t("info.privacy")}</Link>
             </li>
           </ul>
         </nav>
       </footer>
 
       <p className="text-center text-xs md:text-base py-5 text-gray-400">
-        © 2026 Билим Булак. Бардык укуктар корголгон.
+        {t("copyright")}
       </p>
     </>
   );
