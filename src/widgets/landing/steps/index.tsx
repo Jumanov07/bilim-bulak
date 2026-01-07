@@ -32,7 +32,11 @@ export const Steps = () => {
             <h6 className="text-xl md:text-2xl font-semibold">{title}</h6>
 
             <p className="font-medium text-sm md:text-lg text-neutral-500">
-              {description}
+              {description.map((part, idx) => (
+                <span key={idx} className={part.className}>
+                  {part.text}
+                </span>
+              ))}
             </p>
 
             <div className="mt-auto" />
