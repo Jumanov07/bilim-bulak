@@ -1,16 +1,16 @@
 "use client";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Checkbox, Form, Label, TextField, cn } from "@heroui/react";
+import { Button, Form, Label, TextField, cn } from "@heroui/react";
 import { useSignUpStore } from "@/entities/sign-up/model/store";
 import { SignUpFirstStepFormValues } from "@/entities/sign-up/model/types";
 import { SignUpFirstStepSchema } from "@/entities/sign-up/model/schemas";
 import { PhoneInputField } from "@/shared/ui/phone-input-field";
 import { TextInputField } from "@/shared/ui/text-input-field";
 import { PasswordInputField } from "@/shared/ui/password-input-field";
+import { TermsAcceptedField } from "@/shared/ui/terms-accepted-field";
 
 export const SignUpForm = () => {
   const setFirstStep = useSignUpStore((s) => s.setFirstStep);
@@ -23,7 +23,6 @@ export const SignUpForm = () => {
     register,
     handleSubmit,
     control,
-    watch,
     formState: { errors, isSubmitting, isValid },
   } = useForm<SignUpFirstStepFormValues>({
     resolver: zodResolver(SignUpFirstStepSchema),
@@ -37,7 +36,7 @@ export const SignUpForm = () => {
     mode: "onChange",
   });
 
-  const termsAccepted = watch("termsAccepted");
+  const termsAccepted = useWatch({ control, name: "termsAccepted" });
   const isContinueDisabled = isSubmitting || !termsAccepted || !isValid;
 
   const onSubmit = async (values: SignUpFirstStepFormValues) => {
@@ -129,42 +128,14 @@ export const SignUpForm = () => {
           }}
         />
 
-        <Controller
-          name="termsAccepted"
+        <TermsAcceptedField
           control={control}
-          render={({ field }) => (
-            <div className="flex items-start gap-2.5">
-              <Checkbox
-                id="sign-up"
-                className="mt-0.5"
-                isSelected={!!field.value}
-                onChange={(selected: boolean) => field.onChange(selected)}
-                onBlur={field.onBlur}
-              >
-                <Checkbox.Control className="bg-neutral-200">
-                  <Checkbox.Indicator />
-                </Checkbox.Control>
-              </Checkbox>
-
-              <p className="text-xs lg:text-sm text-neutral-500 font-medium">
-                {t("signUpForm.termsText")} <br />
-                <Link href="/" className="text-blue-700">
-                  {t("signUpForm.userAgreement")}
-                </Link>{" "}
-                {t("signUpForm.and")}{" "}
-                <Link href="/" className="text-blue-700">
-                  {t("signUpForm.privacyPolicy")}
-                </Link>
-              </p>
-            </div>
-          )}
+          errorMessage={
+            errors.termsAccepted?.message
+              ? t(errors.termsAccepted.message)
+              : undefined
+          }
         />
-
-        {errors.termsAccepted?.message && (
-          <p className="text-xs lg:text-sm text-red-500 -mt-2">
-            {t(errors.termsAccepted.message)}
-          </p>
-        )}
 
         <Button
           type="submit"
