@@ -10,7 +10,7 @@ export const Footer = () => {
     <>
       <hr className="mt-20 border-gray-100 border" />
 
-      <footer className="max-w-400 m-auto px-5 py-10 border-b border-gray-100">
+      <footer className="max-w-400 m-auto px-4 md:px-5 py-10 border-b border-gray-100">
         <nav className="flex flex-col md:flex-row gap-4 md:gap-2 items-start justify-between">
           <div>
             <div className="flex items-center gap-4">
