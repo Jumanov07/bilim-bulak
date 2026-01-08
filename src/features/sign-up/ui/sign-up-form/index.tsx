@@ -14,7 +14,7 @@ export const SignUpForm = () => {
     resolver: zodResolver(SignUpFirstStepSchema),
     defaultValues: {
       fullName: "",
-      phone: "",
+      phone: "+996",
     },
     mode: "onBlur",
   });
@@ -65,10 +65,22 @@ export const SignUpForm = () => {
             autoComplete="tel"
             onInput={(e) => {
               const input = e.currentTarget;
-              input.value = input.value.replace(/[^\d+]/g, "");
+
+              let v = input.value.replace(/[^\d+]/g, "");
+
+              if (!v.startsWith("+996")) {
+                const digits = v.replace(/\D/g, "");
+                const tail = digits.startsWith("996")
+                  ? digits.slice(3)
+                  : digits;
+                v = "+996" + tail;
+              }
+
+              const tail = v.slice(4).replace(/\D/g, "").slice(0, 9);
+              input.value = "+996" + tail;
             }}
             className="placeholder:text-[#A9A9A9] focus:border-blue-700 py-3.5 px-4 font-medium text-sm lg:text-xl bg-[#F5F5F5] rounded-lg"
-            placeholder="+996700707700"
+            placeholder="+996 700 000 000"
           />
 
           {errors.phone?.message && (

@@ -9,5 +9,8 @@ export const SignUpFirstStepSchema = z.object({
   phone: z
     .string()
     .trim()
-    .regex(/^\+?\d{8,15}$/, "Телефон номерди туура жазыңыз"),
+    .regex(
+      /^\+996\d{9}$/,
+      "Номер +996 менен башталып, андан кийин 9 цифра болушу керек"
+    ),
 });
