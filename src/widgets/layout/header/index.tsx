@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Button } from "@heroui/react";
 import { LangSwitcher } from "@/shared/ui/lang-switcher";
@@ -5,6 +6,10 @@ import { Logo } from "@/shared/ui/logo";
 
 export const Header = () => {
   const t = useTranslations();
+
+  const router = useRouter();
+
+  const navigateToSignIn = () => router.push(`/sign-in`);
 
   return (
     <header className="w-full sticky top-0 bg-white z-50">
@@ -14,7 +19,10 @@ export const Header = () => {
         <div className="flex items-center gap-4">
           <LangSwitcher />
 
-          <Button className="bg-blue-700 rounded-xl font-medium text-sm md:text-xl py-3 px-4 md:py-4 md:px-5 h-fit w-fit">
+          <Button
+            onClick={navigateToSignIn}
+            className="bg-blue-700 rounded-xl font-medium text-sm md:text-xl py-3 px-4 md:py-4 md:px-5 h-fit w-fit"
+          >
             {t("common.login")}
           </Button>
         </div>
