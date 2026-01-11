@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Form, Label, TextField, cn } from "@heroui/react";
+import { Button, Form, cn } from "@heroui/react";
 import { useSignUpStore } from "@/entities/sign-up/model/store";
 import { SignUpFormValues } from "@/entities/sign-up/model/types";
 import { SignUpSchema } from "@/entities/sign-up/model/schemas";
@@ -79,31 +79,23 @@ export const SignUpForm = () => {
           }}
         />
 
-        <TextField name="phone">
-          <Label className="w-fit text-sm lg:text-base text-neutral-500 font-medium ml-2">
-            {t("signUpForm.phoneLabel")}
-          </Label>
-
-          <Controller
-            name="phone"
-            control={control}
-            render={({ field }) => (
-              <PhoneInputField
-                value={field.value}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-                error={!!errors.phone}
-                placeholder="+996 700 000 000"
-              />
-            )}
-          />
-
-          {errors.phone?.message && (
-            <p className="text-xs lg:text-sm text-red-500 mt-1 ml-2">
-              {t(errors.phone.message)}
-            </p>
+        <Controller
+          name="phone"
+          control={control}
+          render={({ field }) => (
+            <PhoneInputField
+              label={t("signUpForm.phoneLabel")}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              error={!!errors.phone}
+              errorMessage={
+                errors.phone?.message ? t(errors.phone.message) : undefined
+              }
+              placeholder="+996 700 000 000"
+            />
           )}
-        </TextField>
+        />
 
         <PasswordInputField
           name="password"
