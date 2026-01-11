@@ -17,8 +17,10 @@ export interface SignUpSecondStepData {
   organizationName?: string;
 }
 
-export interface Region {
+export interface LocalizedEntity {
   id: number;
   nameKg: string;
   nameRu: string;
 }
+
+export type Region = LocalizedEntity;

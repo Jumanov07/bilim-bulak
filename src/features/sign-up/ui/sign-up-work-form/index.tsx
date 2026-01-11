@@ -11,7 +11,7 @@ import { SelectField } from "@/shared/ui/select-field";
 export const SignUpWorkForm = () => {
   const { control, handleSubmit } = useForm<SignUpWorkFormValues>({
     resolver: zodResolver(SignUpWorkSchema),
-    defaultValues: { regionId: null },
+    defaultValues: { regionId: 0 },
     mode: "onSubmit",
   });
 

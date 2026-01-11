@@ -30,16 +30,6 @@ export const SignUpSchema = z
     path: ["confirmPassword"],
   });
 
-export const SignUpWorkSchema = z
-  .object({
-    regionId: z.number().int().positive().nullable(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.regionId === null) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "validation.regionRequired",
-        path: ["regionId"],
-      });
-    }
-  });
+export const SignUpWorkSchema = z.object({
+  regionId: z.number().int().min(1, "validation.regionRequired"),
+});

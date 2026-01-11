@@ -1,29 +1,23 @@
 "use client";
 import { Label, ListBox, Select, cn } from "@heroui/react";
 import type { Key } from "@heroui/react";
-import type { Region } from "@/entities/sign-up/model/types";
+import type { LocalizedEntity } from "@/entities/sign-up/model/types";
 
 interface Props {
   label: string;
   placeholder?: string;
-  options: Region[];
+  options: LocalizedEntity[];
   locale: "kg" | "ru";
-  value: number | null;
-  onChange: (value: number | null) => void;
+
+  // ✅ Variant B: 0 = не выбрано
+  value: number;
+  onChange: (value: number) => void;
 
   isDisabled?: boolean;
   isInvalid?: boolean;
   errorMessage?: string;
   className?: string;
 }
-
-const toSelectValue = (id: number | null) => (id === null ? null : String(id));
-
-const toNumberOrNull = (key: Key | null) => {
-  if (key === null) return null;
-  const n = Number(key);
-  return Number.isFinite(n) ? n : null;
-};
 
 export const SelectField = ({
   label,
@@ -37,7 +31,20 @@ export const SelectField = ({
   errorMessage,
   className,
 }: Props) => {
-  const getLabel = (o: Region) => (locale === "ru" ? o.nameRu : o.nameKg);
+  const getLabel = (o: LocalizedEntity) =>
+    locale === "ru" ? o.nameRu : o.nameKg;
+
+  const selectValue: Key | null = value === 0 ? null : String(value);
+
+  const handleChange = (next: Key | null) => {
+    if (next === null) {
+      onChange(0);
+      return;
+    }
+
+    const num = Number(next);
+    onChange(Number.isFinite(num) ? num : 0);
+  };
 
   return (
     <div className={cn("flex flex-col", className)}>
@@ -50,8 +57,8 @@ export const SelectField = ({
         isDisabled={isDisabled}
         isInvalid={isInvalid}
         fullWidth
-        value={toSelectValue(value)}
-        onChange={(next) => onChange(toNumberOrNull(next))}
+        value={selectValue}
+        onChange={handleChange}
         className="mt-1"
       >
         <Select.Trigger
