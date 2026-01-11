@@ -1,18 +1,15 @@
 "use client";
 import { Label, ListBox, Select, cn } from "@heroui/react";
 import type { Key } from "@heroui/react";
-import type { LocalizedEntity } from "@/entities/sign-up/model/types";
+import { DictionaryItem } from "@/entities/sign-up/model/types";
 
 interface Props {
   label: string;
   placeholder?: string;
-  options: LocalizedEntity[];
+  options: DictionaryItem[];
   locale: "kg" | "ru";
-
-  // ✅ Variant B: 0 = не выбрано
   value: number;
   onChange: (value: number) => void;
-
   isDisabled?: boolean;
   isInvalid?: boolean;
   errorMessage?: string;
@@ -31,7 +28,7 @@ export const SelectField = ({
   errorMessage,
   className,
 }: Props) => {
-  const getLabel = (o: LocalizedEntity) =>
+  const getLabel = (o: DictionaryItem) =>
     locale === "ru" ? o.nameRu : o.nameKg;
 
   const selectValue: Key | null = value === 0 ? null : String(value);
@@ -53,6 +50,7 @@ export const SelectField = ({
       </Label>
 
       <Select
+        aria-label={label}
         placeholder={placeholder}
         isDisabled={isDisabled}
         isInvalid={isInvalid}

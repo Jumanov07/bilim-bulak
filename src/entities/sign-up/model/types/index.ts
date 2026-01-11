@@ -11,16 +11,23 @@ export interface SignUpFirstStepData {
 }
 
 export interface SignUpSecondStepData {
-  region?: string;
-  district?: string;
-  organizationType?: "school" | "kindergarten";
-  organizationName?: string;
+  regionId: number;
+  districtId: number;
+  organizationTypeId: number;
+  organizationId: number;
 }
 
-export interface LocalizedEntity {
+export type DictionaryItem = {
   id: number;
   nameKg: string;
   nameRu: string;
-}
+};
 
-export type Region = LocalizedEntity;
+export type District = DictionaryItem & {
+  regionId: number;
+};
+
+export type Organization = DictionaryItem & {
+  districtId: number;
+  organizationTypeId: number;
+};

@@ -89,7 +89,10 @@
     "passwordMax": "Сыр сөз өтө узун",
     "passwordsDontMatch": "Сыр сөздөр дал келбейт",
     "termsRequired": "Улантуу үчүн шарттарга макул болуңуз",
-    "regionRequired": "Облусту тандаңыз"
+    "regionRequired": "Облусту тандаңыз",
+    "districtRequired": "Районду тандаңыз",
+    "orgTypeRequired": "Уюмдун түрүн тандаңыз",
+    "organizationRequired": "Уюмду тандаңыз"
   },
   "signUpWorkPage": {
     "importantNoteTitle": "Маанилүү эскертүү!",
@@ -103,6 +106,15 @@
     "regionLabel": "Облус",
     "regionPlaceholder": "Облусту тандаңыз",
     "loading": "Жүктөлүүдө...",
-    "loadError": "Маалымат жүктөлгөн жок. Кайра аракет кылыңыз."
+    "loadError": "Маалымат жүктөлгөн жок. Кайра аракет кылыңыз.",
+    "districtLabel": "Район",
+    "districtPlaceholder": "Районду тандаңыз",
+    "orgTypeLabel": "Уюмдун түрү",
+    "orgTypePlaceholder": "Уюмдун түрүн тандаңыз",
+    "organizationLabel": "Уюм",
+    "organizationPlaceholder": "Уюмду тандаңыз",
+    "selectRegionFirst": "Адегенде областты тандаңыз",
+    "selectDistrictAndTypeFirst": "Адегенде район жана уюм түрүн тандаңыз",
+    "continue": "Улантуу"
   }
 }

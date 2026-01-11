@@ -1,28 +1,72 @@
 "use client";
-import { useTranslations, useLocale } from "next-intl";
-import { Controller, useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Form } from "@heroui/react";
-import { useGetRegions } from "@/entities/queries";
+
+import { useSignUpStore } from "@/entities/sign-up/model/store";
 import { SignUpWorkSchema } from "@/entities/sign-up/model/schemas";
-import { SignUpWorkFormValues } from "@/entities/sign-up/model/types";
+import type { SignUpWorkFormValues } from "@/entities/sign-up/model/types";
+
 import { SelectField } from "@/shared/ui/select-field";
+import {
+  useGetRegions,
+  useGetDistricts,
+  useGetOrganizationTypes,
+  useGetOrganizations,
+} from "@/entities/queries";
 
 export const SignUpWorkForm = () => {
-  const { control, handleSubmit } = useForm<SignUpWorkFormValues>({
-    resolver: zodResolver(SignUpWorkSchema),
-    defaultValues: { regionId: 0 },
-    mode: "onSubmit",
-  });
-
-  const { data: regions = [], isPending, isError } = useGetRegions();
+  const t = useTranslations();
 
   const locale = useLocale() as "kg" | "ru";
 
-  const t = useTranslations();
+  const setSecondStep = useSignUpStore((s) => s.setSecondStep);
+
+  const { control, handleSubmit, setValue } = useForm<SignUpWorkFormValues>({
+    resolver: zodResolver(SignUpWorkSchema),
+    defaultValues: {
+      regionId: 0,
+      districtId: 0,
+      organizationTypeId: 0,
+      organizationId: 0,
+    },
+    mode: "onSubmit",
+  });
+
+  const regionId = useWatch({ control, name: "regionId" });
+  const districtId = useWatch({ control, name: "districtId" });
+  const organizationTypeId = useWatch({ control, name: "organizationTypeId" });
+
+  const regionsQ = useGetRegions();
+  const districtsQ = useGetDistricts(regionId);
+  const orgTypesQ = useGetOrganizationTypes();
+  const orgsQ = useGetOrganizations(districtId, organizationTypeId);
+
+  useEffect(() => {
+    setValue("districtId", 0);
+    setValue("organizationTypeId", 0);
+    setValue("organizationId", 0);
+  }, [regionId, setValue]);
+
+  useEffect(() => {
+    setValue("organizationId", 0);
+  }, [districtId, setValue]);
+
+  useEffect(() => {
+    setValue("organizationId", 0);
+  }, [organizationTypeId, setValue]);
 
   const onSubmit = (values: SignUpWorkFormValues) => {
-    console.log(values.regionId);
+    setSecondStep({
+      regionId: values.regionId,
+      districtId: values.districtId,
+      organizationTypeId: values.organizationTypeId,
+      organizationId: values.organizationId,
+    });
+
+    console.log(values);
   };
 
   return (
@@ -46,15 +90,15 @@ export const SignUpWorkForm = () => {
             <SelectField
               label={t("signUpWorkForm.regionLabel")}
               placeholder={
-                isPending
+                regionsQ.isPending
                   ? t("signUpWorkForm.loading")
                   : t("signUpWorkForm.regionPlaceholder")
               }
-              options={regions}
+              options={regionsQ.data ?? []}
               locale={locale}
               value={field.value}
               onChange={field.onChange}
-              isDisabled={isPending || isError}
+              isDisabled={regionsQ.isPending || regionsQ.isError}
               isInvalid={!!fieldState.error}
               errorMessage={
                 fieldState.error?.message
@@ -65,14 +109,97 @@ export const SignUpWorkForm = () => {
           )}
         />
 
-        {isError && (
-          <p className="text-sm text-red-500">
-            {t("signUpWorkForm.loadError")}
-          </p>
-        )}
+        <Controller
+          name="districtId"
+          control={control}
+          render={({ field, fieldState }) => (
+            <SelectField
+              label={t("signUpWorkForm.districtLabel")}
+              placeholder={
+                regionId === 0
+                  ? t("signUpWorkForm.selectRegionFirst")
+                  : districtsQ.isPending
+                  ? t("signUpWorkForm.loading")
+                  : t("signUpWorkForm.districtPlaceholder")
+              }
+              options={districtsQ.data ?? []}
+              locale={locale}
+              value={field.value}
+              onChange={field.onChange}
+              isDisabled={
+                regionId === 0 || districtsQ.isPending || districtsQ.isError
+              }
+              isInvalid={!!fieldState.error}
+              errorMessage={
+                fieldState.error?.message
+                  ? t(fieldState.error.message)
+                  : undefined
+              }
+            />
+          )}
+        />
+
+        <Controller
+          name="organizationTypeId"
+          control={control}
+          render={({ field, fieldState }) => (
+            <SelectField
+              label={t("signUpWorkForm.orgTypeLabel")}
+              placeholder={
+                orgTypesQ.isPending
+                  ? t("signUpWorkForm.loading")
+                  : t("signUpWorkForm.orgTypePlaceholder")
+              }
+              options={orgTypesQ.data ?? []}
+              locale={locale}
+              value={field.value}
+              onChange={field.onChange}
+              isDisabled={orgTypesQ.isPending || orgTypesQ.isError}
+              isInvalid={!!fieldState.error}
+              errorMessage={
+                fieldState.error?.message
+                  ? t(fieldState.error.message)
+                  : undefined
+              }
+            />
+          )}
+        />
+
+        <Controller
+          name="organizationId"
+          control={control}
+          render={({ field, fieldState }) => (
+            <SelectField
+              label={t("signUpWorkForm.organizationLabel")}
+              placeholder={
+                districtId === 0 || organizationTypeId === 0
+                  ? t("signUpWorkForm.selectDistrictAndTypeFirst")
+                  : orgsQ.isPending
+                  ? t("signUpWorkForm.loading")
+                  : t("signUpWorkForm.organizationPlaceholder")
+              }
+              options={orgsQ.data ?? []}
+              locale={locale}
+              value={field.value}
+              onChange={field.onChange}
+              isDisabled={
+                districtId === 0 ||
+                organizationTypeId === 0 ||
+                orgsQ.isPending ||
+                orgsQ.isError
+              }
+              isInvalid={!!fieldState.error}
+              errorMessage={
+                fieldState.error?.message
+                  ? t(fieldState.error.message)
+                  : undefined
+              }
+            />
+          )}
+        />
 
         <Button type="submit" className="w-full">
-          Отправить
+          {t("signUpWorkForm.continue")}
         </Button>
       </Form>
     </div>

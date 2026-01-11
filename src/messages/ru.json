@@ -89,7 +89,10 @@
     "passwordMax": "Пароль слишком длинный",
     "passwordsDontMatch": "Пароли не совпадают",
     "termsRequired": "Чтобы продолжить, примите условия",
-    "regionRequired": "Выберите область"
+    "regionRequired": "Выберите область",
+    "districtRequired": "Выберите район",
+    "orgTypeRequired": "Выберите тип организации",
+    "organizationRequired": "Выберите организацию"
   },
   "signUpWorkPage": {
     "importantNoteTitle": "Важное предупреждение!",
@@ -102,7 +105,16 @@
     "step2": "Шаг 2. Место работы",
     "regionLabel": "Область",
     "regionPlaceholder": "Выберите область",
+    "districtLabel": "Район",
+    "districtPlaceholder": "Выберите район",
+    "orgTypeLabel": "Тип организации",
+    "orgTypePlaceholder": "Выберите тип организации",
+    "organizationLabel": "Организация",
+    "organizationPlaceholder": "Выберите организацию",
+    "selectRegionFirst": "Сначала выберите область",
+    "selectDistrictAndTypeFirst": "Сначала выберите район и тип организации",
     "loading": "Загрузка...",
-    "loadError": "Не удалось загрузить данные. Попробуйте ещё раз."
+    "loadError": "Ошибка загрузки данных",
+    "continue": "Продолжить"
   }
 }
