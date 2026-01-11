@@ -7,13 +7,13 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 const SignUpWork = () => {
-  // useBeforeUnload({ enabled: true }); в конце включим
+  useBeforeUnload({ enabled: true });
 
-  // const allowed = useRequireSignUpFirstStep({ redirectTo: "/auth/sign-up" }); в конце включим
+  const allowed = useRequireSignUpFirstStep({ redirectTo: "/auth/sign-up" });
 
   const t = useTranslations();
 
-  // if (!allowed) return null; в конце включим
+  if (!allowed) return null;
 
   return (
     <section className="max-w-400 m-auto p-4 lg:p-5">
