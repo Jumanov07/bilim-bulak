@@ -11,6 +11,7 @@ export const useRequireSignUpFirstStep = (options: Options = {}) => {
   const redirectTo = options.redirectTo ?? "/auth/sign-up";
 
   const router = useRouter();
+
   const firstStep = useSignUpStore((s) => s.firstStep);
 
   useEffect(() => {
