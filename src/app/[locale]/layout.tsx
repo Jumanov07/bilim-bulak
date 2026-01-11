@@ -6,6 +6,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { METADATA } from "@/shared/lib/utils/constants";
+import { QueryProvider } from "./providers/query-provider";
 
 const rubik = Montserrat({
   subsets: ["cyrillic"],
@@ -34,7 +35,10 @@ const LocaleLayout = async ({ children, params }: Readonly<Props>) => {
     <html lang={locale} className={rubik.variable}>
       <body className="min-h-screen flex flex-col">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <main className="flex-1">{children}</main>
+          <QueryProvider>
+            <main className="flex-1">{children}</main>
+          </QueryProvider>
+          ;
         </NextIntlClientProvider>
       </body>
     </html>
