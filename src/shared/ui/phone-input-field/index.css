@@ -41,3 +41,11 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.phone-input--empty .react-tel-input .form-control {
+  color: #a9a9a9;
+}
+
+.phone-input--filled .react-tel-input .form-control {
+  color: black;
+}

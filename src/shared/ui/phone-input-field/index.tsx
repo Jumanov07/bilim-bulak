@@ -41,6 +41,11 @@ export const PhoneInputField = ({
 }: Props) => {
   const libValue = String(value || KG_PREFIX).replace(/\D/g, "");
 
+  const hasUserDigits =
+    libValue.replace(/\D/g, "").slice(KG_PREFIX.length).length > 0;
+
+  console.log(hasUserDigits);
+
   return (
     <div className={cn("flex flex-col", className)}>
       <Label className="w-fit text-sm lg:text-base text-neutral-500 font-medium ml-2">
@@ -51,7 +56,8 @@ export const PhoneInputField = ({
         className={cn(
           "phone-input",
           error && "phone-input--error",
-          disabled && "phone-input--disabled"
+          disabled && "phone-input--disabled",
+          hasUserDigits ? "phone-input--filled" : "phone-input--empty"
         )}
       >
         <PhoneInput
