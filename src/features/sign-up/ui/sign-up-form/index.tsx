@@ -153,6 +153,22 @@ export const SignUpForm = () => {
         >
           {t("signUpForm.continue")}
         </Button>
+
+        <div className="mt-3 flex items-center justify-center gap-2 font-medium text-sm lg:text-xl">
+          <span className="text-neutral-500">
+            {t("common.alreadyRegistered")}
+          </span>
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="px-0 min-w-0 h-auto text-blue-700 font-semibold hover:bg-transparent"
+            onClick={() => router.push("/auth/sign-in")}
+          >
+            {t("common.login")}
+          </Button>
+        </div>
       </Form>
     </div>
   );
