@@ -5,7 +5,7 @@ import { Button, Form, cn, InputOTP } from "@heroui/react";
 import { toast } from "sonner";
 import { useSignUpStore } from "@/entities/sign-up/model/store";
 import { formatKgPhone } from "@/shared/lib/utils/helpers";
-import { useVerifyOtp } from "@/entities/otp/model/api/queries";
+import { useVerifyOtp, useResendOtp } from "@/entities/otp/model/api/queries";
 import { usePersistentCountdown } from "../../lib/hooks";
 
 const slotClass =
@@ -32,9 +32,11 @@ export const OtpForm = () => {
 
   const t = useTranslations();
 
-  const isConfirmDisabled = otp.length !== 6;
-
   const verifyM = useVerifyOtp();
+  const resendM = useResendOtp();
+
+  const isConfirmDisabled =
+    otp.length !== 6 || verifyM.isPending || resendM.isPending;
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -47,16 +49,38 @@ export const OtpForm = () => {
 
     await toast.promise(verifyM.mutateAsync(payload), {
       loading: t("otpPage.loading"),
+      success: () => t("otpPage.success"),
+      error: (err) => {
+        const msg = err?.response?.data?.message;
+
+        if (msg === "OTP не найден или уже подтверждён") {
+          return t("otpPage.error");
+        }
+
+        return t("common.requestError");
+      },
+    });
+  };
+
+  const onResend = async () => {
+    if (!isExpired || resendM.isPending) return;
+
+    const payload = {
+      phone: phoneRaw ?? "",
+      type: "REGISTRATION" as const,
+    };
+
+    await toast.promise(resendM.mutateAsync(payload), {
+      loading: t("otpPage.resendLoading"),
       success: () => {
-        return t("otpPage.success");
+        restart();
+        setOtp("");
+        return t("otpPage.resendSuccess");
       },
       error: (err) => {
-        const text =
-          err.response.data.message === "OTP не найден или уже подтверждён"
-            ? "otpPage.error"
-            : "";
+        const msg = err?.response?.data?.message;
 
-        return t(text);
+        return msg ? msg : t("common.requestError");
       },
     });
   };
@@ -102,6 +126,7 @@ export const OtpForm = () => {
             onClick={() => console.log("Wrong number (later)")}
             variant="ghost"
             size="sm"
+            isDisabled={verifyM.isPending || resendM.isPending}
             className="px-0 min-w-0 h-auto hover:bg-transparent font-medium text-sm lg:text-xl text-blue-700"
           >
             {t("otpPage.wrongNumber")}
@@ -118,19 +143,16 @@ export const OtpForm = () => {
               : "bg-blue-700 text-white"
           )}
         >
-          {t("otpPage.confirm")}
+          {verifyM.isPending ? t("common.loading") : t("otpPage.confirm")}
         </Button>
 
         <div className="flex justify-center">
           <Button
             type="button"
-            onClick={() => {
-              if (!isExpired) return;
-              restart();
-            }}
+            onClick={onResend}
             variant="ghost"
             size="sm"
-            isDisabled={!isExpired}
+            isDisabled={!isExpired || resendM.isPending || verifyM.isPending}
             className="px-0 min-w-0 h-auto hover:bg-transparent mt-3 flex items-center justify-center gap-2 font-medium text-sm lg:text-xl"
           >
             <span className="text-neutral-500">{t("otpPage.resendLabel")}</span>

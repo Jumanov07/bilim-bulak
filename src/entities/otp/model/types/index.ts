@@ -11,3 +11,17 @@ export interface VerifyOtpResponse {
   phone: string;
   message: string;
 }
+
+export type ResendOtpParams = {
+  phone: string;
+  type: VerifyOtpType;
+};
+
+export interface ResendOtpResponse {
+  success: boolean;
+  phone: string;
+  transactionId: string;
+  token: string;
+  expiresAt: string;
+  message: string;
+}
