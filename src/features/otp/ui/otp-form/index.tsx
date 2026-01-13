@@ -1,19 +1,55 @@
 "use client";
+import { type FormEvent, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Button, Form, cn } from "@heroui/react";
+import { Button, Form, cn, InputOTP } from "@heroui/react";
+import { toast } from "sonner";
 import { useSignUpStore } from "@/entities/sign-up/model/store";
 import { formatKgPhone } from "@/shared/lib/utils/helpers";
+import { useVerifyOtp } from "@/entities/otp/model/api/queries";
+
+const slotClass =
+  "w-10 h-10 lg:w-15 lg:h-15 rounded-xl bg-[#F5F5F5] " +
+  "flex items-center justify-center " +
+  "text-xl lg:text-2xl font-medium text-neutral-900 " +
+  "border border-transparent " +
+  "data-[active=true]:border-blue-700 data-[active=true]:bg-white " +
+  "data-[filled=true]:border-[#E5E5E5]";
 
 export const OtpForm = () => {
+  const [otp, setOtp] = useState("");
+
+  const phoneRaw = useSignUpStore((s) => s.firstStep?.phone);
+  const phone = formatKgPhone(phoneRaw);
+
   const t = useTranslations();
 
-  const phone = useSignUpStore((s) => s.firstStep?.phone);
+  const isConfirmDisabled = otp.length !== 6;
 
-  const isConfirmDisabled = false;
+  const verifyM = useVerifyOtp();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("SUBMIT OTP (later)");
+
+    const payload = {
+      phone,
+      code: otp,
+      type: "REGISTRATION" as const,
+    };
+
+    await toast.promise(verifyM.mutateAsync(payload), {
+      loading: t("otpPage.loading"),
+      success: () => {
+        return t("otpPage.success");
+      },
+      error: (err) => {
+        const text =
+          err.response.data.message === "OTP не найден или уже подтверждён"
+            ? "otpPage.error"
+            : "";
+
+        return t(text);
+      },
+    });
   };
 
   return (
@@ -23,22 +59,45 @@ export const OtpForm = () => {
       </h1>
 
       <p className="text-blue-700 text-base lg:text-xl font-medium mt-2 text-center">
-        {t("otpPage.formDescription", { phone: formatKgPhone(phone) })}
+        {t("otpPage.formDescription", { phone })}
       </p>
 
       <Form
-        className="mt-8 lg:mt-10 w-full flex flex-col gap-4 lg:gap-5"
-        onSubmit={handleSubmit}
+        className="mt-10 lg:mt-15 w-full flex flex-col gap-8 lg:gap-10"
+        onSubmit={onSubmit}
       >
-        <Button
-          type="button"
-          onClick={() => console.log("Wrong number (later)")}
-          variant="ghost"
-          size="sm"
-          className="px-0 min-w-0 text-center w-full h-auto hover:bg-transparent font-medium text-sm lg:text-xl text-blue-700"
-        >
-          {t("otpPage.wrongNumber")}
-        </Button>
+        <div className="w-full flex justify-center">
+          <InputOTP
+            maxLength={6}
+            value={otp}
+            onChange={setOtp}
+            inputMode="numeric"
+            pattern="\d*"
+            pasteTransformer={(text) => text.replace(/\D/g, "").slice(0, 6)}
+            className="w-full flex items-center justify-center"
+          >
+            <InputOTP.Group className="flex gap-3 lg:gap-4">
+              <InputOTP.Slot index={0} className={slotClass} />
+              <InputOTP.Slot index={1} className={slotClass} />
+              <InputOTP.Slot index={2} className={slotClass} />
+              <InputOTP.Slot index={3} className={slotClass} />
+              <InputOTP.Slot index={4} className={slotClass} />
+              <InputOTP.Slot index={5} className={slotClass} />
+            </InputOTP.Group>
+          </InputOTP>
+        </div>
+
+        <div className="flex justify-center">
+          <Button
+            type="button"
+            onClick={() => console.log("Wrong number (later)")}
+            variant="ghost"
+            size="sm"
+            className="px-0 min-w-0 h-auto hover:bg-transparent font-medium text-sm lg:text-xl text-blue-700"
+          >
+            {t("otpPage.wrongNumber")}
+          </Button>
+        </div>
 
         <Button
           type="submit"
@@ -53,16 +112,18 @@ export const OtpForm = () => {
           {t("otpPage.confirm")}
         </Button>
 
-        <Button
-          type="button"
-          onClick={() => console.log("Resend (later)")}
-          variant="ghost"
-          size="sm"
-          className="px-0 min-w-0 w-full h-auto hover:bg-transparent mt-3 flex items-center justify-center gap-2 font-medium text-sm lg:text-xl"
-        >
-          <span className="text-neutral-500">{t("otpPage.resendLabel")}</span>
-          <span className="text-blue-700">00:59</span>
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            type="button"
+            onClick={() => console.log("Resend (later)")}
+            variant="ghost"
+            size="sm"
+            className="px-0 min-w-0 h-auto hover:bg-transparent mt-3 flex items-center justify-center gap-2 font-medium text-sm lg:text-xl"
+          >
+            <span className="text-neutral-500">{t("otpPage.resendLabel")}</span>
+            <span className="text-blue-700">00:59</span>
+          </Button>
+        </div>
       </Form>
     </div>
   );

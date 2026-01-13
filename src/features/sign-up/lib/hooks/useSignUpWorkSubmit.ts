@@ -1,7 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-
 import { useSignUpStore } from "@/entities/sign-up/model/store";
 import { useRegister } from "@/entities/sign-up/model/api/queries";
 import type { SignUpWorkFormValues } from "@/entities/sign-up/model/types";

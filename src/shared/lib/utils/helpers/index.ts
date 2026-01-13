@@ -15,14 +15,10 @@ export function isValidKgPhoneDigits(phone: string): boolean {
 }
 
 export const formatKgPhone = (raw?: string) => {
-  const digits = (raw ?? "").replace(/\D/g, "");
-  if (!digits) return "+996 XXX XXX XXX";
+  if (!raw) return "+996";
 
-  const cc = digits.slice(0, 3);
-  const p1 = digits.slice(3, 6);
-  const p2 = digits.slice(6, 9);
-  const p3 = digits.slice(9, 12);
+  const digits = raw.replace(/\D/g, "");
+  const groups = digits.match(/.{1,3}/g)?.join(" ") ?? digits;
 
-  const rest = [p1, p2, p3].filter(Boolean).join(" ");
-  return `+${cc}${rest ? " " + rest : ""}`;
+  return `+${groups}`;
 };
