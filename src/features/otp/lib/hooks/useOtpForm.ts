@@ -1,0 +1,95 @@
+"use client";
+import { useRouter } from "next/navigation";
+import { useMemo, useState, type FormEvent } from "react";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
+import { useSignUpStore } from "@/entities/sign-up/model/store";
+import { useVerifyOtp, useResendOtp } from "@/entities/otp/model/api/queries";
+import { formatKgPhone } from "@/shared/lib/utils/helpers";
+import { usePersistentCountdown } from "./usePersistentCountdown";
+
+export const useOtpForm = () => {
+  const [otp, setOtp] = useState("");
+
+  const t = useTranslations();
+
+  const router = useRouter();
+
+  const phoneRaw = useSignUpStore((s) => s.firstStep?.phone) ?? "";
+
+  const phone = useMemo(() => formatKgPhone(phoneRaw), [phoneRaw]);
+
+  const timerKey = `otp_resend_expireAt:${phoneRaw || "empty"}`;
+
+  const { mmss, isExpired, restart } = usePersistentCountdown({
+    key: timerKey,
+    durationSec: 60,
+  });
+
+  const verifyM = useVerifyOtp();
+  const resendM = useResendOtp();
+
+  const isBusy = verifyM.isPending || resendM.isPending;
+  const isConfirmDisabled = otp.length !== 6 || isBusy;
+
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const payload = {
+      phone: phoneRaw,
+      code: otp,
+      type: "REGISTRATION" as const,
+    };
+
+    await toast.promise(verifyM.mutateAsync(payload), {
+      loading: t("otpPage.loading"),
+      success: () => t("otpPage.success"),
+      error: (err) => {
+        const msg = err?.response?.data?.message;
+
+        if (msg === "The OTP has expired. Please request a new code.") {
+          return t("otpPage.error");
+        }
+
+        return t("common.requestError");
+      },
+    });
+  };
+
+  const onResend = async () => {
+    if (!isExpired || resendM.isPending) return;
+
+    const payload = {
+      phone: phoneRaw,
+      type: "REGISTRATION" as const,
+    };
+
+    await toast.promise(resendM.mutateAsync(payload), {
+      loading: t("otpPage.resendLoading"),
+      success: () => {
+        restart();
+        setOtp("");
+        return t("otpPage.resendSuccess");
+      },
+      error: (err) => err?.response?.data?.message ?? t("common.requestError"),
+    });
+  };
+
+  const onWrongNumber = () => router.back();
+
+  return {
+    t,
+    otp,
+    setOtp,
+    phone,
+    mmss,
+    isExpired,
+    verifyPending: verifyM.isPending,
+    resendPending: resendM.isPending,
+    isBusy,
+    isConfirmDisabled,
+    onSubmit,
+    onResend,
+    onWrongNumber,
+  };
+};

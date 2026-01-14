@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useOtpStore } from "../../../../shared/stores/useOtpStore";
+import { useOtpStore } from "@/shared/stores/useOtpStore";
 
 interface Params {
   redirectTo?: string;
