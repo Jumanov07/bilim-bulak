@@ -1,18 +1,39 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/shared/stores/useAuthStore";
 
 export const useRequireAuth = () => {
+  const [tokenState, setTokenState] = useState<string | null>(null);
+
   const router = useRouter();
 
-  const token = useAuthStore((s) => s.token);
-
   useEffect(() => {
-    if (!token) {
-      router.replace("/");
-    }
-  }, [token, router]);
+    const authData = localStorage.getItem("auth");
 
-  return { isAuthed: !!token };
+    if (!authData) {
+      router.replace("/");
+      return;
+    }
+
+    let token: string | null = null;
+
+    try {
+      const state = JSON.parse(authData);
+      token = state?.state?.token ?? null;
+    } catch {
+      localStorage.removeItem("auth");
+      router.replace("/");
+      return;
+    }
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTokenState(token);
+
+    if (!token) router.replace("/");
+  }, [router]);
+
+  const ready = tokenState !== null;
+  const isAuthed = !!tokenState;
+
+  return { ready, isAuthed };
 };

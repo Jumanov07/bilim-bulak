@@ -28,7 +28,7 @@ export const useSignInSubmit = () => {
           },
         });
 
-        router.push("/dashboard");
+        router.replace("/dashboard");
         return t("signInForm.success");
       },
       error: (err) => {

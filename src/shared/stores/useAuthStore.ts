@@ -10,12 +10,16 @@ interface AuthUser {
 interface AuthState {
   token: string | null;
   user: AuthUser | null;
+
   otpToken: string | null;
   otpUser: AuthUser | null;
+
   setOtpSession: (payload: { otpToken: string; otpUser: AuthUser }) => void;
   promoteOtpToAuth: () => void;
+
   setAuth: (payload: { token: string; user: AuthUser }) => void;
   clearAuth: () => void;
+
   clearOtp: () => void;
   logout: () => void;
 }
@@ -29,11 +33,12 @@ export const useAuthStore = create<AuthState>()(
       otpToken: null,
       otpUser: null,
 
+      hasHydrated: false,
+
       setOtpSession: ({ otpToken, otpUser }) => set({ otpToken, otpUser }),
 
       promoteOtpToAuth: () => {
         const { otpToken, otpUser } = get();
-
         if (!otpToken || !otpUser) return;
 
         set({
@@ -45,7 +50,6 @@ export const useAuthStore = create<AuthState>()(
       },
 
       setAuth: ({ token, user }) => set({ token, user }),
-
       clearAuth: () => set({ token: null, user: null }),
 
       clearOtp: () => set({ otpToken: null, otpUser: null }),
@@ -58,6 +62,15 @@ export const useAuthStore = create<AuthState>()(
           otpUser: null,
         }),
     }),
-    { name: "auth" }
+    {
+      name: "auth",
+
+      partialize: (s) => ({
+        token: s.token,
+        user: s.user,
+        otpToken: s.otpToken,
+        otpUser: s.otpUser,
+      }),
+    }
   )
 );
