@@ -8,7 +8,7 @@ export const OtpForm = () => {
 
   return (
     <div className="flex flex-col items-center lg:min-w-118">
-      <h1 className="text-3xl lg:text-4xl font-semibold">
+      <h1 className="text-3xl lg:text-4xl text-center font-semibold">
         {f.t("otpPage.formTitle")}
       </h1>
 

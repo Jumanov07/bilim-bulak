@@ -91,7 +91,7 @@ export const SignInForm = () => {
             variant="ghost"
             size="sm"
             className="px-0 min-w-0 h-auto text-blue-700 lg:text-xl text-sm font-medium hover:bg-transparent"
-            onClick={() => console.log("Forgot password (later)")}
+            onClick={() => router.push("/auth/forgot-password")}
             isDisabled={loginM.isPending}
           >
             {t("signInForm.forgotPassword")}
