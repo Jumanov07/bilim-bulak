@@ -53,7 +53,7 @@ export const OtpForm = () => {
       error: (err) => {
         const msg = err?.response?.data?.message;
 
-        if (msg === "OTP не найден или уже подтверждён") {
+        if (msg === "The OTP has expired. Please request a new code.") {
           return t("otpPage.error");
         }
 
