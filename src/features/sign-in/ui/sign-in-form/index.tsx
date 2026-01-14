@@ -5,14 +5,17 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Form, cn } from "@heroui/react";
 import { PhoneInputField } from "@/shared/ui/phone-input-field";
-import { PasswordInputField } from "@/shared/ui/password-input-field";
-import { SignInFormValues } from "@/entities/sign-in/model/types";
+import type { SignInFormValues } from "@/entities/sign-in/model/types";
 import { SignInSchema } from "@/entities/sign-in/model/schemas";
+import { PasswordInputField } from "@/shared/ui/password-input-field";
+import { useSignInSubmit } from "../../lib/hooks/useSignInSubmit";
 
 export const SignInForm = () => {
   const router = useRouter();
 
   const t = useTranslations();
+
+  const { loginM, onSubmit } = useSignInSubmit();
 
   const {
     handleSubmit,
@@ -20,18 +23,11 @@ export const SignInForm = () => {
     formState: { errors, isSubmitting, isValid },
   } = useForm<SignInFormValues>({
     resolver: zodResolver(SignInSchema),
-    defaultValues: {
-      phone: "996",
-      password: "",
-    },
+    defaultValues: { phone: "996", password: "" },
     mode: "onChange",
   });
 
-  const isContinueDisabled = isSubmitting || !isValid;
-
-  const onSubmit = async (values: SignInFormValues) => {
-    console.log("SIGN IN (later)", values);
-  };
+  const isContinueDisabled = isSubmitting || !isValid || loginM.isPending;
 
   return (
     <div className="flex flex-col items-center lg:min-w-118">
@@ -96,6 +92,7 @@ export const SignInForm = () => {
             size="sm"
             className="px-0 min-w-0 h-auto text-blue-700 lg:text-xl text-sm font-medium hover:bg-transparent"
             onClick={() => console.log("Forgot password (later)")}
+            isDisabled={loginM.isPending}
           >
             {t("signInForm.forgotPassword")}
           </Button>
@@ -111,7 +108,7 @@ export const SignInForm = () => {
               : "bg-blue-700 text-white"
           )}
         >
-          {t("common.login")}
+          {loginM.isPending ? t("common.loading") : t("common.login")}
         </Button>
 
         <div className="mt-3 flex items-center justify-center gap-2 font-medium text-sm lg:text-xl">
@@ -123,6 +120,7 @@ export const SignInForm = () => {
             size="sm"
             className="px-0 min-w-0 h-auto text-blue-700 lg:text-xl text-sm font-medium hover:bg-transparent"
             onClick={() => router.push("/auth/sign-up")}
+            isDisabled={loginM.isPending}
           >
             {t("signInForm.signUp")}
           </Button>

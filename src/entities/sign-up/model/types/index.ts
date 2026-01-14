@@ -36,11 +36,4 @@ export type Organization = DictionaryItem & {
 export type RegisterPayload = Pick<SignUpFirstStepData, "phone" | "password"> &
   SignUpSecondStepData;
 
-export type RegisterResponse = {
-  token: string;
-  userId: number;
-  phone: string;
-  role: string;
-};
-
 export type Locale = "kg" | "ru";

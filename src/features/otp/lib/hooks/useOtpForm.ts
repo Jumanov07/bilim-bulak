@@ -43,7 +43,7 @@ export const useOtpForm = () => {
       type: "REGISTRATION" as const,
     };
 
-    await toast.promise(verifyM.mutateAsync(payload), {
+    toast.promise(verifyM.mutateAsync(payload), {
       loading: t("otpPage.loading"),
       success: () => {
         promote();

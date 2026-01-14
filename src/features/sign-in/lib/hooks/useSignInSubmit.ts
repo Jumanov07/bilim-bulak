@@ -1,0 +1,42 @@
+"use client";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { toast } from "sonner";
+import type { SignInFormValues } from "@/entities/sign-in/model/types";
+import { useLogin } from "@/entities/sign-in/model/api/queries";
+import { useAuthStore } from "@/shared/stores/useAuthStore";
+
+export const useSignInSubmit = () => {
+  const router = useRouter();
+
+  const t = useTranslations();
+
+  const loginM = useLogin();
+
+  const setAuth = useAuthStore((s) => s.setAuth);
+
+  const onSubmit = async (values: SignInFormValues) => {
+    toast.promise(loginM.mutateAsync(values), {
+      loading: t("signInForm.loading"),
+      success: (res) => {
+        setAuth({
+          token: res.token,
+          user: {
+            userId: res.userId,
+            phone: res.phone,
+            role: res.role,
+          },
+        });
+
+        router.push("/dashboard");
+        return t("signInForm.success");
+      },
+      error: (err) => {
+        const msg = err?.response?.data?.message;
+        return msg ? msg : t("common.requestError");
+      },
+    });
+  };
+
+  return { loginM, onSubmit };
+};

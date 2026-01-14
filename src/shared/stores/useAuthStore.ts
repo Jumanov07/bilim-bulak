@@ -10,13 +10,12 @@ interface AuthUser {
 interface AuthState {
   token: string | null;
   user: AuthUser | null;
-
   otpToken: string | null;
   otpUser: AuthUser | null;
-
   setOtpSession: (payload: { otpToken: string; otpUser: AuthUser }) => void;
   promoteOtpToAuth: () => void;
-
+  setAuth: (payload: { token: string; user: AuthUser }) => void;
+  clearAuth: () => void;
   clearOtp: () => void;
   logout: () => void;
 }
@@ -44,6 +43,10 @@ export const useAuthStore = create<AuthState>()(
           otpUser: null,
         });
       },
+
+      setAuth: ({ token, user }) => set({ token, user }),
+
+      clearAuth: () => set({ token: null, user: null }),
 
       clearOtp: () => set({ otpToken: null, otpUser: null }),
 

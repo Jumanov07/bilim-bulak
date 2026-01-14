@@ -4,8 +4,8 @@ import {
   District,
   Organization,
   RegisterPayload,
-  RegisterResponse,
 } from "../types";
+import { AuthResponse } from "@/shared/types";
 
 export const getRegions = async (): Promise<DictionaryItem[]> => {
   const { data } = await api.get("/dictionaries/regions");
@@ -34,7 +34,7 @@ export const getOrganizations = async (params: {
 
 export const registerUser = async (
   payload: RegisterPayload
-): Promise<RegisterResponse> => {
-  const { data } = await api.post<RegisterResponse>("/auth/register", payload);
+): Promise<AuthResponse> => {
+  const { data } = await api.post<AuthResponse>("/auth/register", payload);
   return data;
 };

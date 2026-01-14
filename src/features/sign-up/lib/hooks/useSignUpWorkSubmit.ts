@@ -28,7 +28,7 @@ export const useSignUpWorkSubmit = () => {
       ...formValues,
     };
 
-    await toast.promise(registerM.mutateAsync(payload), {
+    toast.promise(registerM.mutateAsync(payload), {
       loading: "Отправляем...",
       success: (res) => {
         setOtpSession({
