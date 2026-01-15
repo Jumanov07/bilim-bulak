@@ -1,13 +1,19 @@
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Button } from "@heroui/react";
 import { LangSwitcher } from "@/shared/ui/lang-switcher";
 import { Logo } from "@/shared/ui/logo";
+import { useAuthStore } from "@/shared/stores/useAuthStore";
 
 export const Header = () => {
   const t = useTranslations();
 
   const router = useRouter();
+
+  const isAuthed = useAuthStore((s) => Boolean(s.token));
+  const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
 
   const navigateToSignIn = () => router.push(`/auth/sign-in`);
 
@@ -15,6 +21,26 @@ export const Header = () => {
     <header className="w-full sticky top-0 bg-white z-50">
       <div className="max-w-400 m-auto py-3 px-4 md:p-5 flex justify-between items-center">
         <Logo />
+
+        {isAuthed ? (
+          <nav className="flex items-center gap-12">
+            <Link
+              href="/user/tests"
+              className="text-sm md:text-xl font-medium text-neutral-500 hover:text-blue-700 transition-all"
+            >
+              Тесттер
+            </Link>
+
+            <Link
+              href="/user/courses"
+              className="text-sm md:text-xl font-medium text-neutral-500 hover:text-blue-700 transition-all"
+            >
+              Курстар
+            </Link>
+          </nav>
+        ) : (
+          <div />
+        )}
 
         <div className="flex items-center gap-4">
           <LangSwitcher />
