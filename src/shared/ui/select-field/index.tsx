@@ -1,6 +1,6 @@
 "use client";
 import { Button, Label, ListBox, Select, cn, type Key } from "@heroui/react";
-import { DictionaryItem } from "@/entities/sign-up/model/types";
+import { DictionaryItem } from "@/entities/auth/sign-up/model/types";
 
 interface Props {
   label: string;

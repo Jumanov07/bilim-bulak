@@ -1,6 +1,6 @@
 "use client";
-import { useRequireSignUpFirstStep } from "@/features/sign-up/lib/hooks/useRequireSignUpFirstStep";
-import { SignUpWorkForm } from "@/features/sign-up/ui/sign-up-work-form";
+import { useRequireSignUpFirstStep } from "@/features/auth/sign-up/lib/hooks/useRequireSignUpFirstStep";
+import { SignUpWorkForm } from "@/features/auth/sign-up/ui/sign-up-work-form";
 import { useBeforeUnload } from "@/shared/lib/hooks/useBeforeUnload";
 import { BackButton } from "@/shared/ui/back-button";
 import { useTranslations } from "next-intl";

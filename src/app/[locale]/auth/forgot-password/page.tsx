@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { ForgotPasswordForm } from "@/features/forgot-password/ui/forgot-password-form";
+import { ForgotPasswordForm } from "@/features/auth/forgot-password/ui/forgot-password-form";
 import { BackButton } from "@/shared/ui/back-button";
 
 const ForgotPassword = () => {

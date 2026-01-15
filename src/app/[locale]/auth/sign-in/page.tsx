@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { SignInForm } from "@/features/sign-in/ui/sign-in-form";
+import { SignInForm } from "@/features/auth/sign-in/ui/sign-in-form";
 import { BackButton } from "@/shared/ui/back-button";
 
 const SignIn = () => {

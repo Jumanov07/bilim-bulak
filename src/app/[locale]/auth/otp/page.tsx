@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { OtpForm } from "@/features/otp/ui/otp-form";
-import { useOtpPageGuard } from "@/features/otp/lib/hooks/useOtpPageGuard";
+import { OtpForm } from "@/features/auth/otp/ui/otp-form";
+import { useOtpPageGuard } from "@/features/auth/otp/lib/hooks/useOtpPageGuard";
 import { BackButton } from "@/shared/ui/back-button";
 
 const Otp = () => {

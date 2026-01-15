@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { NewPasswordForm } from "@/features/new-password/ui/new-password-form";
+import { NewPasswordForm } from "@/features/auth/new-password/ui/new-password-form";
 import { BackButton } from "@/shared/ui/back-button";
 
 const NewPassword = () => {
