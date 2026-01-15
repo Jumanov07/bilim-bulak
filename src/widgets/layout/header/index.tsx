@@ -24,17 +24,17 @@ export const Header = () => {
         <Logo />
 
         {isAuthed ? (
-          <nav className="flex items-center gap-12">
+          <nav className="hidden md:flex items-center gap-12">
             <Link
               href="/user/tests"
-              className="text-sm md:text-xl font-medium text-neutral-500 hover:text-blue-700 transition-all"
+              className="text-xl font-medium text-neutral-500 hover:text-blue-700 transition-all"
             >
               {t("nav.tests")}
             </Link>
 
             <Link
               href="/user/courses"
-              className="text-sm md:text-xl font-medium text-neutral-500 hover:text-blue-700 transition-all"
+              className="text-xl font-medium text-neutral-500 hover:text-blue-700 transition-all"
             >
               {t("nav.courses")}
             </Link>
@@ -46,12 +46,21 @@ export const Header = () => {
         <div className="flex items-center gap-4">
           <LangSwitcher />
 
-          <Button
-            onClick={isAuthed ? navigateToProfile : navigateToSignIn}
-            className="bg-blue-700 rounded-xl font-medium text-sm md:text-xl py-3 px-4 md:py-4 md:px-5 h-fit w-fit"
-          >
-            {isAuthed ? t("common.profile") : t("common.login")}
-          </Button>
+          {isAuthed ? (
+            <Button
+              onClick={navigateToProfile}
+              className="hidden md:inline-flex bg-blue-700 rounded-xl font-medium text-sm md:text-xl py-3 px-4 md:py-4 md:px-5 h-fit w-fit"
+            >
+              {t("common.profile")}
+            </Button>
+          ) : (
+            <Button
+              onClick={navigateToSignIn}
+              className="bg-blue-700 rounded-xl font-medium text-sm md:text-xl py-3 px-4 md:py-4 md:px-5 h-fit w-fit"
+            >
+              {t("common.login")}
+            </Button>
+          )}
         </div>
       </div>
     </header>
