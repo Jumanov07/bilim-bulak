@@ -43,7 +43,7 @@ export const useOtpForm = () => {
     const payload = {
       phone: type === "REGISTRATION" ? phoneRaw : phoneOtp ?? "",
       code: otp,
-      type: "REGISTRATION" as const,
+      type: type ?? "REGISTRATION",
     };
 
     toast.promise(verifyM.mutateAsync(payload), {
@@ -74,8 +74,9 @@ export const useOtpForm = () => {
     if (!isExpired || resendM.isPending) return;
 
     const payload = {
-      phone: phoneRaw,
-      type: "REGISTRATION" as const,
+      phone: type === "REGISTRATION" ? phoneRaw : phoneOtp ?? "",
+
+      type: type ?? "REGISTRATION",
     };
 
     await toast.promise(resendM.mutateAsync(payload), {
