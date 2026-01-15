@@ -1,7 +1,6 @@
 "use client";
-import { Header } from "@/widgets/layout/header";
 import { Welcome } from "@/widgets/landing/welcome";
-import { Footer } from "@/widgets/layout/footer";
+import { UserLayout } from "@/widgets/layout/user-layout";
 import { useRequireAuth } from "@/shared/lib/hooks/useRequireAuth";
 
 const User = () => {
@@ -12,9 +11,9 @@ const User = () => {
 
   return (
     <>
-      <Header />
-      <Welcome />
-      <Footer />
+      <UserLayout>
+        <Welcome />
+      </UserLayout>
     </>
   );
 };

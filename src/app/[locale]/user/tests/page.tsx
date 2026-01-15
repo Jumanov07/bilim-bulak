@@ -1,10 +1,7 @@
+import { UserLayout } from "@/widgets/layout/user-layout";
 
 const Tests = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <UserLayout>Tests</UserLayout>;
+};
 
-export default Tests
+export default Tests;

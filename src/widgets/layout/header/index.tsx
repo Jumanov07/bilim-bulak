@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -12,8 +13,6 @@ export const Header = () => {
   const router = useRouter();
 
   const isAuthed = useAuthStore((s) => Boolean(s.token));
-  const user = useAuthStore((s) => s.user);
-  const logout = useAuthStore((s) => s.logout);
 
   const navigateToSignIn = () => router.push(`/auth/sign-in`);
   const navigateToProfile = () => router.push("/user/profile");
