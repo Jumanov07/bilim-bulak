@@ -1,6 +1,8 @@
+"use client";
 import { useTranslations } from "next-intl";
 import { Button } from "@heroui/react";
 import { MoveDown } from "lucide-react";
+import { useGetProfile } from "@/entities/user/profile/model/api/queries";
 
 export const Welcome = () => {
   const t = useTranslations();
