@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Button } from "@heroui/react";
+import { Button, cn } from "@heroui/react";
 import { LangSwitcher } from "@/shared/ui/lang-switcher";
 import { Logo } from "@/shared/ui/logo";
 import { useAuthStore } from "@/shared/stores/useAuthStore";
@@ -12,10 +12,14 @@ export const Header = () => {
 
   const router = useRouter();
 
+  const pathname = usePathname();
+
   const isAuthed = useAuthStore((s) => Boolean(s.token));
 
   const navigateToSignIn = () => router.push(`/auth/sign-in`);
   const navigateToProfile = () => router.push("/user/profile");
+
+  const isActive = (href: string) => pathname.endsWith(href);
 
   return (
     <header className="w-full sticky top-0 bg-white z-50">
@@ -26,14 +30,20 @@ export const Header = () => {
           <nav className="hidden md:flex items-center gap-12">
             <Link
               href="/user/tests"
-              className="text-xl font-medium text-neutral-500 hover:text-blue-700 transition-all"
+              className={cn(
+                "text-xl font-medium text-neutral-500 hover:text-blue-700 transition-all",
+                isActive("/tests") && "text-[#1570EF]"
+              )}
             >
               {t("nav.tests")}
             </Link>
 
             <Link
               href="/user/courses"
-              className="text-xl font-medium text-neutral-500 hover:text-blue-700 transition-all"
+              className={cn(
+                "text-xl font-medium text-neutral-500 hover:text-blue-700 transition-all",
+                isActive("/courses") && "text-[#1570EF]"
+              )}
             >
               {t("nav.courses")}
             </Link>
