@@ -3,12 +3,13 @@ import { useTranslations } from "next-intl";
 import { usePay } from "@/features/user/payment/lib/hooks/usePay";
 import { useGetTests } from "@/entities/user/tests/model/api/queries";
 import { ErrorBlock } from "@/shared/ui/error-block";
-import { IntroTestCard } from "../intro-test-card";
+import { TestCard } from "@/shared/ui/test-card";
 
 export const IntroTests = () => {
   const t = useTranslations();
 
   const { data: tests, isPending, isError, refetch } = useGetTests();
+
   const { pay } = usePay();
 
   if (isPending) {
@@ -26,7 +27,7 @@ export const IntroTests = () => {
       ) : (
         <div className="mt-14 flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap md:items-stretch gap-8 relative before:content-[''] before:absolute before:inset-0 before:-z-10 before:rounded-2xl before:bg-indigo-100 before:blur-2xl before:opacity-80">
           {(tests ?? []).slice(0, 4).map((test) => (
-            <IntroTestCard key={test.id} test={test} onPay={pay} />
+            <TestCard key={test.id} test={test} onPay={pay} />
           ))}
         </div>
       )}
