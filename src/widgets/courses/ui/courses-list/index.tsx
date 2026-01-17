@@ -12,9 +12,9 @@ export const CoursesList = () => {
 
   return (
     <section className="animate-fade-in">
-      <h2 id="tests" className="font-bold text-2xl md:text-4xl text-center">
+      <h1 className="font-bold text-2xl md:text-4xl text-center">
         Менин курстарым
-      </h2>
+      </h1>
 
       {isPending ? (
         <div className="mt-14 flex items-center justify-center">

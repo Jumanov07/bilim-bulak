@@ -15,9 +15,9 @@ export const IntroTests = () => {
 
   return (
     <div>
-      <h2 id="tests" className="font-bold text-2xl md:text-4xl text-center">
+      <h1 className="font-bold text-2xl md:text-4xl text-center">
         {t("testsPage.title")}
-      </h2>
+      </h1>
 
       {isError ? (
         <ErrorBlock refetch={refetch} className="mt-14" />
