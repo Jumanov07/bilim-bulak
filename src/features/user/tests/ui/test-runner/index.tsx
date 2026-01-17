@@ -76,12 +76,16 @@ export const TestRunner = ({ test, testId }: Props) => {
     };
 
     toast.promise(submitMutation.mutateAsync(payload), {
-      loading: t("common.loading"),
-      success: t("common.success"),
-      error: t("common.loadError"),
+      loading: t("common.sending"),
+      success: () => {
+        router.replace(`/user/tests/${payload.testId}/complete`);
+        return t("common.success");
+      },
+      error: (err) => {
+        const msg = err?.response?.data?.message;
+        return msg ? msg : t("common.requeError");
+      },
     });
-
-    router.replace(`/user/tests/${payload.testId}/complete`);
   };
 
   const isBtnDisabled =
