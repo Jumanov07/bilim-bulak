@@ -18,7 +18,7 @@ export const TestsList = () => {
 
       {isPending ? (
         <div className="mt-14 flex items-center justify-center">
-          <Spinner size="lg" />
+          <Spinner />
         </div>
       ) : isError ? (
         <ErrorBlock refetch={refetch} className="mt-14" />
