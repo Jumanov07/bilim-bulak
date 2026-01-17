@@ -6,5 +6,5 @@ export const CoursesList = () => {
 
   console.log(courses);
 
-  return <section>CoursesList</section>;
+  return <section className="animate-fade-in">CoursesList</section>;
 };

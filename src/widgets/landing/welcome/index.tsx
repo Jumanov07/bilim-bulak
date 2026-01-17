@@ -12,7 +12,7 @@ export const Welcome = () => {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center">
+    <section className="animate-fade-in flex flex-col items-center justify-center">
       <h1 className="font-bold text-3xl md:text-5xl text-center">
         {t("welcome.title")}
       </h1>

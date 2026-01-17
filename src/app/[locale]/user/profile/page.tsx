@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Profile = () => (
   <UserLayout>
-    <section className="mt-8 lg:mt-11.5 lg:flex items-start justify-center gap-40 lg:px-20">
+    <section className="animate-fade-in mt-8 lg:mt-11.5 lg:flex items-start justify-center gap-40 lg:px-20">
       <ProfileForm />
 
       <div className="flex-col items-center hidden lg:flex w-full">

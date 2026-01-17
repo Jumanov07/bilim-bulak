@@ -22,9 +22,7 @@ export const UserLayout = ({ children }: Props) => {
     <>
       <Header />
 
-      <div className="mt-7 px-5 max-w-400 m-auto animate-fade-in">
-        {children}
-      </div>
+      <div className="mt-7 px-5 max-w-400 min-h-screen m-auto">{children}</div>
 
       <Footer />
 
