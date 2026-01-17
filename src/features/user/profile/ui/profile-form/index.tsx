@@ -7,6 +7,7 @@ import { PhoneInputField } from "@/shared/ui/phone-input-field";
 import { ErrorBlock } from "@/shared/ui/error-block";
 import { useProfileForm } from "../../lib/hooks/useProfileForm";
 import { ProfileSelectsSection } from "../profile-selects-section";
+import { LogoutButton } from "../logout-button";
 
 export const ProfileForm = () => {
   const t = useTranslations();
@@ -84,6 +85,10 @@ export const ProfileForm = () => {
           </Button> */}
         </Form>
       )}
+
+      <div className="w-full flex justify-start">
+        <LogoutButton className="mt-10" />
+      </div>
     </div>
   );
 };
