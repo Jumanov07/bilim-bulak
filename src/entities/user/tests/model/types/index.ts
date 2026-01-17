@@ -25,3 +25,28 @@ export interface TestStartResponse {
   questionCount: number;
   startedAt: string;
 }
+
+export interface SubmitTestAnswerItem {
+  questionId: number;
+  answerId: number;
+}
+
+export interface SubmitTestPayload {
+  testId: number;
+  startedAt: string;
+  answers: SubmitTestAnswerItem[];
+}
+
+export interface SubmitTestResponse {
+  id: number;
+  testId: number;
+  testTitle: string;
+  totalScore: number;
+  maxPossibleScore: number;
+  scorePercentage: number;
+  categoryName: string;
+  categoryDescription: string;
+  recommendation: string;
+  severityLevel: string;
+  completedAt: string;
+}

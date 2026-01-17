@@ -1,9 +1,13 @@
 "use client";
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Button } from "@heroui/react";
+
 import type { TestStartResponse } from "@/entities/user/tests/model/types";
+import { useSubmitTestAnswers } from "@/entities/user/tests/model/api/queries";
 import { TestQuestion } from "../test-question";
+import { toast } from "sonner";
 
 interface Props {
   test: TestStartResponse;
@@ -17,6 +21,10 @@ export const TestRunner = ({ test, testId }: Props) => {
   >({});
 
   const t = useTranslations();
+
+  const router = useRouter();
+
+  const submitMutation = useSubmitTestAnswers();
 
   const questions = useMemo(() => {
     const list = test.questions ?? [];
@@ -43,7 +51,7 @@ export const TestRunner = ({ test, testId }: Props) => {
     }));
   };
 
-  const goNext = () => {
+  const goNext = async () => {
     if (!currentQuestion) return;
 
     const picked = selectedByQuestion[currentQuestion.id];
@@ -67,8 +75,17 @@ export const TestRunner = ({ test, testId }: Props) => {
       ),
     };
 
-    console.log("SUBMIT PAYLOAD (later)", payload);
+    toast.promise(submitMutation.mutateAsync(payload), {
+      loading: t("common.loading"),
+      success: t("common.success"),
+      error: t("common.loadError"),
+    });
+
+    router.replace(`/user/tests/${payload.testId}/complete`);
   };
+
+  const isBtnDisabled =
+    !currentQuestion || !selectedAnswerId || submitMutation.isPending;
 
   return (
     <div className="max-w-400 min-h-screen m-auto flex justify-center mt-10">
@@ -87,7 +104,7 @@ export const TestRunner = ({ test, testId }: Props) => {
           />
         </div>
 
-        <div className="h-10"></div>
+        <div className="h-10" />
 
         {currentQuestion ? (
           <TestQuestion
@@ -102,10 +119,12 @@ export const TestRunner = ({ test, testId }: Props) => {
 
         <Button
           onPress={goNext}
-          isDisabled={!currentQuestion || !selectedAnswerId}
+          isDisabled={isBtnDisabled}
           className="w-full rounded-xl bg-blue-700 text-white font-medium text-sm md:text-xl py-3.5 md:py-4.5 h-fit"
         >
-          {t("signUpForm.continue")}
+          {submitMutation.isPending
+            ? t("common.loading")
+            : t("signUpForm.continue")}
         </Button>
       </div>
     </div>
