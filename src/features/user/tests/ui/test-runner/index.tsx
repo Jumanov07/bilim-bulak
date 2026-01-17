@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@heroui/react";
 import type { TestStartResponse } from "@/entities/user/tests/model/types";
@@ -10,41 +10,13 @@ interface Props {
   testId: string;
 }
 
-const pad2 = (n: number) => String(n).padStart(2, "0");
-
-const formatMMSS = (totalSeconds: number) => {
-  const s = Math.max(0, totalSeconds);
-  const mm = Math.floor(s / 60);
-  const ss = s % 60;
-  return `${pad2(mm)}:${pad2(ss)}`;
-};
-
 export const TestRunner = ({ test, testId }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedByQuestion, setSelectedByQuestion] = useState<
     Record<number, number>
   >({});
 
-  const totalSeconds = Math.max(0, (test.timerMinutes ?? 0) * 60);
-
-  const [secondsLeft, setSecondsLeft] = useState(totalSeconds);
-
   const t = useTranslations();
-
-  useEffect(() => {
-    setSecondsLeft(totalSeconds);
-  }, [totalSeconds]);
-
-  useEffect(() => {
-    if (totalSeconds <= 0) return;
-    if (secondsLeft <= 0) return;
-
-    const id = window.setInterval(() => {
-      setSecondsLeft((s) => (s > 0 ? s - 1 : 0));
-    }, 1000);
-
-    return () => window.clearInterval(id);
-  }, [secondsLeft, totalSeconds]);
 
   const questions = useMemo(() => {
     const list = test.questions ?? [];
@@ -121,7 +93,7 @@ export const TestRunner = ({ test, testId }: Props) => {
           </p>
 
           <p className="text-2xl md:text-4xl font-semibold text-green-500">
-            {formatMMSS(secondsLeft)}
+            44:44
           </p>
         </div>
 
