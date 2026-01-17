@@ -6,6 +6,8 @@
     "back": "Назад",
     "loading": "Загрузка...",
     "profile": "Профиль",
+
+    "cancel": "Отмена",
     "loadError": "Ошибка загрузки",
     "retry": "Повторить",
     "requestError": "Ошибка отправки",
@@ -205,7 +207,11 @@
       "available": "Доступно",
       "paid": "Оплачено",
       "completed": "Пройдено"
-    }
+    },
+    "finishTest": "Завершить тест",
+    "finishConfirmTitle": "Вы точно хотите завершить тест?",
+    "finishConfirmDesc": "Если вы завершите тест, ваши ответы не сохранятся.",
+    "finishConfirmBtn": "Завершить"
   },
   "testActionModal": {
     "payTitle": "Подтверждение оплаты",

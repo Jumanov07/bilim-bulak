@@ -1,5 +1,6 @@
 {
   "common": {
+    "cancel": "Жокко чыгаруу",
     "login": "Кирүү",
     "signUp": "Катталуу",
     "takeTest": "Тесттен өтүү",
@@ -205,7 +206,11 @@
       "available": "Жеткиликтүү",
       "paid": "Төлөнгөн",
       "completed": "Аякталды"
-    }
+    },
+    "finishTest": "Тестти аяктоо",
+    "finishConfirmTitle": "Тестти чын эле аяктайсызбы?",
+    "finishConfirmDesc": "Эгер тестти аяктасаңыз, жоопторуңуз сакталбайт.",
+    "finishConfirmBtn": "Аяктоо"
   },
   "testActionModal": {
     "payTitle": "Төлөмдү ырастоо",

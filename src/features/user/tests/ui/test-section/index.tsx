@@ -1,23 +1,33 @@
 "use client";
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useGetTest } from "@/entities/user/tests/model/api/queries";
-import { ErrorBlock } from "@/shared/ui/error-block";
+import { useTranslations } from "next-intl";
 import { Button, Modal, Spinner } from "@heroui/react";
 import { CircleX } from "lucide-react";
 
+import { useGetTest } from "@/entities/user/tests/model/api/queries";
+import { ErrorBlock } from "@/shared/ui/error-block";
+
 export const TestSection = () => {
+  const t = useTranslations();
+
+  const router = useRouter();
+
   const { testId } = useParams<{ testId: string }>();
 
   const { data: test, isPending, isError, refetch } = useGetTest(testId);
 
-  const router = useRouter();
-
-  console.log(test);
+  const [isFinishOpen, setIsFinishOpen] = useState(false);
 
   const safeTotal = Math.max(1, test?.questionCount ?? 0);
   const percent = Math.min(100, Math.max(0, (5 / safeTotal) * 100));
 
-  const navigateToTests = () => {
+  const openFinishModal = () => setIsFinishOpen(true);
+
+  const closeFinishModal = () => setIsFinishOpen(false);
+
+  const confirmFinish = () => {
+    setIsFinishOpen(false);
     router.replace("/user/tests");
   };
 
@@ -25,10 +35,12 @@ export const TestSection = () => {
     <>
       <div className="w-full flex justify-end max-w-400 m-auto py-5 px-5">
         <button
-          onClick={navigateToTests}
+          type="button"
+          onClick={openFinishModal}
           className="flex items-center gap-2 font-medium text-sm md:text-xl text-red-500 cursor-pointer"
         >
-          Тестти аяктоо <CircleX color="#fb2c36" />
+          {t("tests.finishTest")}
+          <CircleX color="#fb2c36" />
         </button>
       </div>
 
@@ -69,27 +81,46 @@ export const TestSection = () => {
               <h2 className="font-semibold text-base md:text-3xl mt-5 md:mt-10 text-center">
                 Себепсиз тынчсызданам
               </h2>
+
+              
             </div>
           </div>
         </div>
       )}
 
       <Modal>
-        <Modal.Backdrop variant="blur">
+        <Modal.Backdrop
+          variant="blur"
+          isOpen={isFinishOpen}
+          onOpenChange={setIsFinishOpen}
+        >
           <Modal.Container placement="center">
             <Modal.Dialog className="rounded-3xl">
               <Modal.CloseTrigger />
 
               <Modal.Body style={{ color: "black" }}>
                 <h3 className="font-bold text-xl text-black! md:text-2xl">
-                  Вы точно хотите завершить тест?
+                  {t("tests.finishConfirmTitle")}
                 </h3>
 
-                <p>Если вы завершите ваши ответы не сохраняться.</p>
+                <p className="mt-2 text-neutral-600 font-medium text-sm md:text-xl">
+                  {t("tests.finishConfirmDesc")}
+                </p>
 
                 <div className="mt-6 flex flex-col gap-2">
-                  <Button className="w-full rounded-xl bg-blue-700 text-white font-medium text-sm md:text-xl py-3.5 md:py-4.5 h-fit">
-                    Завершить
+                  <Button
+                    onPress={confirmFinish}
+                    className="w-full rounded-xl bg-blue-700 text-white font-medium text-sm md:text-xl py-3.5 md:py-4.5 h-fit"
+                  >
+                    {t("tests.finishConfirmBtn")}
+                  </Button>
+
+                  <Button
+                    onPress={closeFinishModal}
+                    variant="ghost"
+                    className="w-full rounded-xl font-medium text-sm md:text-xl py-3.5 md:py-4.5 h-fit"
+                  >
+                    {t("common.cancel")}
                   </Button>
                 </div>
               </Modal.Body>
