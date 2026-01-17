@@ -188,5 +188,10 @@
     "priceLabel": "Баасы:",
     "minutes": "{value} мүнөт",
     "questions": "{value} суроо"
+  },
+  "payment": {
+    "paymentLoading": "Төлөм түзүлүүдө…",
+    "paymentRedirect": "Төлөмгө өтүп жатабыз…",
+    "paymentCreated": "Төлөм түзүлдү"
   }
 }

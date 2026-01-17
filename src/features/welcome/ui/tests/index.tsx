@@ -1,18 +1,48 @@
 "use client";
-import { Button, Spinner } from "@heroui/react";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useGetTests } from "@/entities/user/tests/model/api/queries";
+import { toast } from "sonner";
+import { Button, Spinner } from "@heroui/react";
 import { CircleQuestionMark, Clock } from "lucide-react";
+
+import { useCreatePayment } from "@/entities/user/payments/model/api/queries";
+import { useGetTests } from "@/entities/user/tests/model/api/queries";
 import { ErrorBlock } from "@/shared/ui/error-block";
 
 export const Tests = () => {
+  const router = useRouter();
+
   const t = useTranslations();
 
   const { data: tests, isPending, isError, refetch } = useGetTests();
+  const createPayment = useCreatePayment();
 
-  if (isPending) {
-    return <Spinner />;
-  }
+  const onPay = async (testId: number) => {
+    try {
+      const redirectURL = window.location.href;
+
+      toast.promise(createPayment.mutateAsync({ testId, redirectURL }), {
+        loading: t("payment.paymentLoading"),
+        success: (res) => {
+          if (res?.paymentUrl) {
+            window.location.href = res.paymentUrl;
+            return t("payment.paymentRedirect");
+          }
+
+          router.push("/user");
+          return t("payment.paymentCreated");
+        },
+        error: () => {
+          router.push("/user");
+          return t("common.requestError");
+        },
+      });
+    } catch {
+      router.push("/user");
+    }
+  };
+
+  if (isPending) return <Spinner />;
 
   return (
     <div>
@@ -61,8 +91,14 @@ export const Tests = () => {
                 </span>
               </p>
 
-              <Button className="bg-blue-700 mt-3 md:mt-6 rounded-xl w-full font-medium text-sm md:text-xl py-3.5 md:py-6">
-                {t("testsPage.pay")}
+              <Button
+                className="bg-blue-700 mt-3 md:mt-6 rounded-xl w-full font-medium text-sm md:text-xl py-3.5 md:py-6"
+                isDisabled={createPayment.isPending}
+                onClick={() => onPay(test.id)}
+              >
+                {createPayment.isPending
+                  ? t("common.loading")
+                  : t("testsPage.pay")}
               </Button>
             </div>
           ))}

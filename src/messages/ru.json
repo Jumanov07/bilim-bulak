@@ -188,5 +188,10 @@
     "priceLabel": "Цена:",
     "minutes": "{value} минут",
     "questions": "{value} вопросов"
+  },
+  "payment": {
+    "paymentLoading": "Создаем оплату…",
+    "paymentRedirect": "Переходим к оплате…",
+    "paymentCreated": "Оплата создана"
   }
 }
