@@ -102,7 +102,7 @@ export const TestCard = ({ test }: Props) => {
       <Modal
         isOpen={isModalOpen}
         onOpenChange={setIsModalOpen}
-        title={isPaid ? t("testsPage.start") : t("testsPage.toCourses")}
+        title={isPaid ? t("testsPage.start") : t("testsPage.pay")}
       />
     </>
   );
