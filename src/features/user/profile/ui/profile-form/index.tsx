@@ -16,13 +16,13 @@ export const ProfileForm = () => {
     dicts,
     control,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors, isSubmitting },
     regionId,
     districtId,
     organizationTypeId,
   } = useProfileForm();
 
-  const isContinueDisabled = isSubmitting || !isValid;
+  const isReadonly = true;
 
   const onSubmit = async (values: ProfileFormValues) => {
     console.log("PROFILE SUBMIT (later)", values);
@@ -57,6 +57,7 @@ export const ProfileForm = () => {
                   errors.phone?.message ? t(errors.phone.message) : undefined
                 }
                 placeholder="+996 700 000 000"
+                disabled={isReadonly}
               />
             )}
           />
@@ -68,20 +69,19 @@ export const ProfileForm = () => {
             districtId={districtId}
             organizationTypeId={organizationTypeId}
             isSubmittingAny={isSubmitting}
+            isReadonly={isReadonly}
           />
 
-          <Button
+          {/* <Button
             type="submit"
-            isDisabled={isContinueDisabled}
+            isDisabled
             className={cn(
               "w-full h-fit rounded-xl font-medium text-sm lg:text-xl py-3 lg:py-4.5",
-              isContinueDisabled
-                ? "bg-[#EEEEEE] text-[#A9A9A9]"
-                : "bg-blue-700 text-white"
+              "bg-[#EEEEEE] text-[#A9A9A9]"
             )}
           >
-            {isSubmitting ? t("common.loading") : t("newPasswordForm.save")}
-          </Button>
+            {t("newPasswordForm.save")}
+          </Button> */}
         </Form>
       )}
     </div>

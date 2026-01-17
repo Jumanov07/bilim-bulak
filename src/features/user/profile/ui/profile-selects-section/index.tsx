@@ -11,6 +11,7 @@ interface Props {
   districtId: number;
   organizationTypeId: number;
   isSubmittingAny: boolean;
+  isReadonly?: boolean;
   dicts: {
     regionsQ: UseQueryResult<DictionaryItem[], unknown>;
     districtsQ: UseQueryResult<District[], unknown>;
@@ -26,10 +27,12 @@ export const ProfileSelectsSection = ({
   organizationTypeId,
   control,
   isSubmittingAny,
+  isReadonly = false,
 }: Props) => {
   const { regionsQ, districtsQ, orgTypesQ, orgsQ } = dicts;
-
   const t = useTranslations();
+
+  const disabled = isSubmittingAny || isReadonly;
 
   return (
     <>
@@ -58,13 +61,7 @@ export const ProfileSelectsSection = ({
             loadErrorMessage={
               regionsQ.isError ? t("common.loadError") : undefined
             }
-            isDisabled={isSubmittingAny}
-            onRetry={
-              !isSubmittingAny && regionsQ.isError
-                ? () => regionsQ.refetch()
-                : undefined
-            }
-            retryText={t("common.retry")}
+            isDisabled={disabled}
           />
         )}
       />
@@ -98,13 +95,7 @@ export const ProfileSelectsSection = ({
                 ? t("common.loadError")
                 : undefined
             }
-            isDisabled={isSubmittingAny || regionId === 0}
-            onRetry={
-              !isSubmittingAny && regionId !== 0 && districtsQ.isError
-                ? () => districtsQ.refetch()
-                : undefined
-            }
-            retryText={t("common.retry")}
+            isDisabled={disabled || regionId === 0}
           />
         )}
       />
@@ -134,13 +125,7 @@ export const ProfileSelectsSection = ({
             loadErrorMessage={
               orgTypesQ.isError ? t("common.loadError") : undefined
             }
-            isDisabled={isSubmittingAny}
-            onRetry={
-              !isSubmittingAny && orgTypesQ.isError
-                ? () => orgTypesQ.refetch()
-                : undefined
-            }
-            retryText={t("common.retry")}
+            isDisabled={disabled}
           />
         )}
       />
@@ -175,17 +160,8 @@ export const ProfileSelectsSection = ({
                 : undefined
             }
             isDisabled={
-              isSubmittingAny || districtId === 0 || organizationTypeId === 0
+              disabled || districtId === 0 || organizationTypeId === 0
             }
-            onRetry={
-              !isSubmittingAny &&
-              districtId !== 0 &&
-              organizationTypeId !== 0 &&
-              orgsQ.isError
-                ? () => orgsQ.refetch()
-                : undefined
-            }
-            retryText={t("common.retry")}
           />
         )}
       />
