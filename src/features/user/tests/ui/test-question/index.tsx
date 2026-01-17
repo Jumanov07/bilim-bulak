@@ -12,7 +12,7 @@ export const TestQuestion = ({
   onSelect,
 }: Props) => (
   <>
-    <h2 className="font-semibold text-xl md:text-3xl mt-5 md:mt-10 text-center">
+    <h2 className="font-semibold text-xl md:text-3xl  text-center">
       {question.text}
     </h2>
 
