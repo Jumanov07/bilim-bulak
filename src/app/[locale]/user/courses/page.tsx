@@ -1,12 +1,17 @@
+// app/user/courses/page.tsx (или где у тебя Courses)
 "use client";
 
 import { useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { Button } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import { MoveRight } from "lucide-react";
 import { UserLayout } from "@/widgets/layout/user-layout";
 
 const Courses = () => {
   const t = useTranslations();
   const locale = useLocale();
+  const router = useRouter();
 
   const content = useMemo(() => {
     const kg = {
@@ -19,6 +24,7 @@ const Courses = () => {
         {
           title: "Медитация",
           text: "стресстин деңгээлин төмөндөтүүгө жардам берет, ички тынчтыкты жана концентрацияны күчөтөт.",
+          action: "Окуу",
         },
         {
           title: "Аффирмациялар",
@@ -41,6 +47,7 @@ const Courses = () => {
         {
           title: "Медитация",
           text: "помогает снижать уровень стресса, улучшает концентрацию и внутреннее спокойствие.",
+          action: "Перейти",
         },
         {
           title: "Аффирмации",
@@ -57,9 +64,11 @@ const Courses = () => {
     return locale === "ru" ? ru : kg;
   }, [locale, t]);
 
+  const goMeditation = () => router.push("/user/courses/meditation");
+
   return (
     <UserLayout>
-      <section className="animate-fade-in max-w-400 m-auto px-5">
+      <section className="animate-fade-in max-w-400 m-auto">
         <h1 className="font-bold text-2xl md:text-4xl leading-tight">
           {content.title}
         </h1>
@@ -84,12 +93,28 @@ const Courses = () => {
                 className="bg-white rounded-2xl p-4 md:p-5 border border-indigo-100"
               >
                 <div className="flex items-start gap-3">
-                  <div className="text-xl md:text-2xl leading-none">1️⃣</div>
-                  <div className="text-sm md:text-xl leading-relaxed">
-                    <span className="font-semibold text-neutral-900">
-                      {item.title}
-                    </span>{" "}
-                    – <span className="text-neutral-700">{item.text}</span>
+                  <div className="text-xl md:text-2xl leading-none">
+                    {idx === 0 ? "1️⃣" : idx === 1 ? "2️⃣" : "3️⃣"}
+                  </div>
+
+                  <div className="flex-1">
+                    <div className="flex flex-col gap-3">
+                      <div className="text-sm md:text-xl leading-relaxed">
+                        <span className="font-semibold text-neutral-900">
+                          {item.title}
+                        </span>{" "}
+                        – <span className="text-neutral-700">{item.text}</span>
+                      </div>
+
+                      {item.title === "Медитация" && (
+                        <Button
+                          onClick={goMeditation}
+                          className="rounded-xl bg-blue-700 text-white font-medium text-sm md:text-lg h-fit px-4 py-2"
+                        >
+                          {item.action} <MoveRight size={18} />
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
