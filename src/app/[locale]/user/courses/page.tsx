@@ -120,7 +120,7 @@ const Courses = () => {
         </div>
       ) : isError ? (
         <ErrorBlock refetch={refetch} className="mt-14" />
-      ) : !data?.hasCompletedAnyTest ? (
+      ) : data?.hasCompletedAnyTest ? (
         <section className="animate-fade-in max-w-400 m-auto">
           <h1 className="font-bold text-2xl md:text-4xl leading-tight">
             {content.title}
