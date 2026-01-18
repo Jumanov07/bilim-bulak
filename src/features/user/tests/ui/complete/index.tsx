@@ -13,14 +13,14 @@ export const CompleteTest = () => {
   const { testId } = useParams<{ testId: string }>();
   const router = useRouter();
 
+  const t = useTranslations();
+
   const {
     data: result,
     isPending,
     isError,
     refetch,
   } = useGetTestResult(testId);
-
-  const t = useTranslations();
 
   const ui = useMemo(() => {
     const level = (result?.severityLevel ?? "low") as SeverityLevel;
@@ -65,22 +65,25 @@ export const CompleteTest = () => {
       ) : (
         <div style={{ maxWidth: 472 }} className="flex flex-col items-center">
           <div className="h-5" />
+          <p className="text-blue-700 font-bold text-3xl">
+            Баллы {result?.totalScore}
+          </p>
+          <div className="h-5" />
 
           <p
             className="text-center"
             style={{
               fontWeight: 700,
-              fontSize: 32,
+              fontSize: 28,
               color: ui.color,
             }}
           >
             {result?.categoryDescription}
           </p>
-
+          <p>Эмоциональное состояние {result?.mentalState}</p>
           <p className="text-center text-neutral-500 mt-5">
-            {result?.recommendation}
+            Рекомендации {result?.recommendation}
           </p>
-
           <Button
             onPress={goToCourses}
             style={{ marginTop: 20 }}

@@ -47,6 +47,7 @@ export interface TestResultResponse {
   maxPossibleScore: number;
   scorePercentage: number;
   categoryName: string;
+  mentalState: string;
   categoryDescription: string;
   recommendation: string;
   severityLevel: SeverityLevel;
