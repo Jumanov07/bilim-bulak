@@ -1,6 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getTestQuestions, getTests, submitTestAnswers } from "./endpoints";
-import { SubmitTestPayload, SubmitTestResponse } from "../types";
+import {
+  getTestQuestions,
+  getTestResult,
+  getTests,
+  submitTestAnswers,
+} from "./endpoints";
+import { SubmitTestPayload, TestResultResponse } from "../types";
 
 export const useGetTests = () => {
   return useQuery({
@@ -18,7 +23,15 @@ export const useGetTest = (testId: string) => {
 };
 
 export const useSubmitTestAnswers = () => {
-  return useMutation<SubmitTestResponse, unknown, SubmitTestPayload>({
+  return useMutation<TestResultResponse, unknown, SubmitTestPayload>({
     mutationFn: (payload) => submitTestAnswers(payload),
+  });
+};
+
+export const useGetTestResult = (testId: string) => {
+  return useQuery({
+    queryKey: ["test", "result", testId],
+    queryFn: () => getTestResult(testId),
+    enabled: Boolean(testId),
   });
 };

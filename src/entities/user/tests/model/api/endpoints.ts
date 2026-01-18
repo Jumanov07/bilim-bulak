@@ -2,7 +2,7 @@ import { api } from "@/shared/api";
 import {
   GetTestsResponse,
   SubmitTestPayload,
-  SubmitTestResponse,
+  TestResultResponse,
   TestStartResponse,
 } from "../types";
 
@@ -22,10 +22,19 @@ export const getTestQuestions = async (
 
 export const submitTestAnswers = async (
   payload: SubmitTestPayload
-): Promise<SubmitTestResponse> => {
-  const { data } = await api.post<SubmitTestResponse>(
+): Promise<TestResultResponse> => {
+  const { data } = await api.post<TestResultResponse>(
     "/user/tests/submit",
     payload
+  );
+  return data;
+};
+
+export const getTestResult = async (
+  testId: string
+): Promise<TestResultResponse> => {
+  const { data } = await api.get<TestResultResponse>(
+    `/user/tests/${testId}/result`
   );
   return data;
 };

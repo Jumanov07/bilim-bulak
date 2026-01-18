@@ -37,7 +37,9 @@ export interface SubmitTestPayload {
   answers: SubmitTestAnswerItem[];
 }
 
-export interface SubmitTestResponse {
+export type SeverityLevel = "critical" | "high" | "moderate" | "low";
+
+export interface TestResultResponse {
   id: number;
   testId: number;
   testTitle: string;
@@ -47,6 +49,6 @@ export interface SubmitTestResponse {
   categoryName: string;
   categoryDescription: string;
   recommendation: string;
-  severityLevel: string;
+  severityLevel: SeverityLevel;
   completedAt: string;
 }
