@@ -19,6 +19,11 @@ export const useGetTest = (testId: string) => {
     queryKey: ["test", "start", testId],
     queryFn: () => getTestQuestions(testId),
     enabled: Boolean(testId),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 60,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 };
 

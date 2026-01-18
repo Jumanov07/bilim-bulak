@@ -9,6 +9,7 @@ import { useSubmitTestAnswers } from "@/entities/user/tests/model/api/queries";
 import { TestQuestion } from "../test-question";
 import { toast } from "sonner";
 import { useTestCountdown } from "../../lib/hooks/useTestCountdown";
+import { clearTestStart } from "@/entities/user/tests/model/storage";
 
 interface Props {
   test: TestStartResponse;
@@ -29,7 +30,7 @@ export const TestRunner = ({ test, testId }: Props) => {
 
   const totalSeconds = Math.max(0, (test.timerMinutes ?? 0) * 60);
 
-  const { mmss } = useTestCountdown({
+  const { mmss, clear } = useTestCountdown({
     testId: test.id ?? testId,
     totalSeconds,
     isEnabled: totalSeconds > 0,
@@ -84,12 +85,14 @@ export const TestRunner = ({ test, testId }: Props) => {
     toast.promise(submitMutation.mutateAsync(payload), {
       loading: t("common.sending"),
       success: () => {
+        clearTestStart(payload.testId);
+        clear();
         router.replace(`/user/tests/${payload.testId}/complete`);
         return t("common.success");
       },
       error: (err) => {
         const msg = err?.response?.data?.message;
-        return msg ? msg : t("common.requeError");
+        return msg ? msg : t("common.requestError");
       },
     });
   };

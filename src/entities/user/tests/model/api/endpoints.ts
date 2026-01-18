@@ -5,6 +5,7 @@ import {
   TestResultResponse,
   TestStartResponse,
 } from "../types";
+import { readTestStart, writeTestStart } from "../storage";
 
 export const getTests = async (): Promise<GetTestsResponse> => {
   const { data } = await api.get<GetTestsResponse>("/user/tests");
@@ -14,9 +15,13 @@ export const getTests = async (): Promise<GetTestsResponse> => {
 export const getTestQuestions = async (
   testId: string
 ): Promise<TestStartResponse> => {
+  const cached = readTestStart(testId);
+  if (cached) return cached;
+
   const { data } = await api.get<TestStartResponse>(
     `/user/tests/${testId}/start`
   );
+  writeTestStart(testId, data);
   return data;
 };
 
