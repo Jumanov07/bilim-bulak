@@ -26,10 +26,7 @@ export const TestRunner = ({ test, testId }: Props) => {
 
   const submitMutation = useSubmitTestAnswers();
 
-  const questions = useMemo(() => {
-    const list = test.questions ?? [];
-    return [...list].sort((a, b) => a.orderNumber - b.orderNumber);
-  }, [test.questions]);
+  const questions = test.questions;
 
   const currentQuestion = questions[currentIndex];
 
