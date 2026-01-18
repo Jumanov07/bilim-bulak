@@ -68,7 +68,7 @@ export const CompleteTest = () => {
           <div className="h-5" />
 
           <p className="text-blue-700 font-bold text-3xl">
-            {result?.scorePercentage}
+            {result?.scorePercentage}%
           </p>
 
           <div className="h-5" />
@@ -85,7 +85,7 @@ export const CompleteTest = () => {
           </p>
 
           <p className="text-center text-neutral-500 mt-5">
-            {result?.recommendation}%
+            {result?.recommendation}
           </p>
 
           <Button
