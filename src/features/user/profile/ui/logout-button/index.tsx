@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Button } from "@heroui/react";
 import { useAuthStore } from "@/shared/stores/useAuthStore";
 
@@ -12,6 +13,8 @@ export const LogoutButton = ({ className }: Props) => {
 
   const logout = useAuthStore((s) => s.logout);
 
+  const t = useTranslations();
+
   const onLogout = () => {
     logout();
     router.replace("/auth/sign-in");
@@ -19,7 +22,7 @@ export const LogoutButton = ({ className }: Props) => {
 
   return (
     <Button type="button" className={className} onClick={onLogout}>
-      Выйти
+      {t("common.logout")}
     </Button>
   );
 };

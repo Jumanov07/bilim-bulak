@@ -2,9 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Instagram, MessageCircle } from "lucide-react";
+import { LogoutButton } from "@/features/user/profile/ui/logout-button";
+import { useAuthStore } from "@/shared/stores/useAuthStore";
 
 export const Footer = () => {
   const t = useTranslations("footer");
+
+  const isAuthed = useAuthStore((s) => Boolean(s.token));
 
   return (
     <>
@@ -66,6 +70,12 @@ export const Footer = () => {
             <li className="text-xs md:text-base font-medium text-neutral-500">
               <Link href="/privacy">{t("info.privacy")}</Link>
             </li>
+
+            {isAuthed && (
+              <li>
+                <LogoutButton />
+              </li>
+            )}
           </ul>
         </nav>
       </footer>
