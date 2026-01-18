@@ -8,8 +8,6 @@ import { useRouter } from "next/navigation";
 import { MoveRight } from "lucide-react";
 import { UserLayout } from "@/widgets/layout/user-layout";
 
-const LESSONS_URL = "https://example.com"; // TODO: поставь реальную ссылку
-
 const Courses = () => {
   const t = useTranslations();
   const locale = useLocale();
@@ -76,6 +74,11 @@ const Courses = () => {
 
     return locale === "ru" ? ru : kg;
   }, [locale, t]);
+
+  const LESSONS_URL =
+    locale === "ru"
+      ? "https://drive.google.com/drive/folders/1XYKmaYACSOdTdlyELZJS0iJTXHciyidY?usp=sharing"
+      : "https://drive.google.com/drive/folders/1PBoHEqJJ12EF-wzEts20whKWToIH4dc1?usp=sharing";
 
   const onOpen = (key: string) => {
     if (key === "meditation") {
