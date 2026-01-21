@@ -16,7 +16,7 @@ interface Props {
     regionsQ: UseQueryResult<DictionaryItem[], unknown>;
     districtsQ: UseQueryResult<District[], unknown>;
     orgTypesQ: UseQueryResult<DictionaryItem[], unknown>;
-    orgsQ: UseQueryResult<Organization[], unknown>;
+    // orgsQ: UseQueryResult<Organization[], unknown>;
   };
 }
 
@@ -29,7 +29,7 @@ export const ProfileSelectsSection = ({
   isSubmittingAny,
   isReadonly = false,
 }: Props) => {
-  const { regionsQ, districtsQ, orgTypesQ, orgsQ } = dicts;
+  const { regionsQ, districtsQ, orgTypesQ } = dicts;
   const t = useTranslations();
 
   const disabled = isSubmittingAny || isReadonly;
@@ -46,8 +46,8 @@ export const ProfileSelectsSection = ({
               regionsQ.isPending
                 ? t("common.loading")
                 : regionsQ.isError
-                ? t("common.loadError")
-                : t("signUpWorkForm.regionPlaceholder")
+                  ? t("common.loadError")
+                  : t("signUpWorkForm.regionPlaceholder")
             }
             options={regionsQ.data ?? []}
             value={field.value}
@@ -76,10 +76,10 @@ export const ProfileSelectsSection = ({
               regionId === 0
                 ? t("signUpWorkForm.selectRegionFirst")
                 : districtsQ.isPending
-                ? t("common.loading")
-                : districtsQ.isError
-                ? t("common.loadError")
-                : t("signUpWorkForm.districtPlaceholder")
+                  ? t("common.loading")
+                  : districtsQ.isError
+                    ? t("common.loadError")
+                    : t("signUpWorkForm.districtPlaceholder")
             }
             options={districtsQ.data ?? []}
             value={field.value}
@@ -110,8 +110,8 @@ export const ProfileSelectsSection = ({
               orgTypesQ.isPending
                 ? t("common.loading")
                 : orgTypesQ.isError
-                ? t("common.loadError")
-                : t("signUpWorkForm.orgTypePlaceholder")
+                  ? t("common.loadError")
+                  : t("signUpWorkForm.orgTypePlaceholder")
             }
             options={orgTypesQ.data ?? []}
             value={field.value}
@@ -130,7 +130,7 @@ export const ProfileSelectsSection = ({
         )}
       />
 
-      <Controller
+      {/* <Controller
         name="organizationId"
         control={control}
         render={({ field, fieldState }) => (
@@ -140,10 +140,10 @@ export const ProfileSelectsSection = ({
               districtId === 0 || organizationTypeId === 0
                 ? t("signUpWorkForm.selectDistrictAndTypeFirst")
                 : orgsQ.isPending
-                ? t("common.loading")
-                : orgsQ.isError
-                ? t("common.loadError")
-                : t("signUpWorkForm.organizationPlaceholder")
+                  ? t("common.loading")
+                  : orgsQ.isError
+                    ? t("common.loadError")
+                    : t("signUpWorkForm.organizationPlaceholder")
             }
             options={orgsQ.data ?? []}
             value={field.value}
@@ -164,7 +164,7 @@ export const ProfileSelectsSection = ({
             }
           />
         )}
-      />
+      /> */}
     </>
   );
 };

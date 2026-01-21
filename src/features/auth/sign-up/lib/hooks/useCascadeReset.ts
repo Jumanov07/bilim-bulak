@@ -28,7 +28,7 @@ export const useCascadeReset = ({
     if (prevRegionId.current !== regionId) {
       setValue("districtId", 0);
       setValue("organizationTypeId", 0);
-      setValue("organizationId", 0);
+      // setValue("organizationId", 0);
       prevRegionId.current = regionId;
     }
   }, [regionId, setValue]);
@@ -40,7 +40,7 @@ export const useCascadeReset = ({
     }
 
     if (prevDistrictId.current !== districtId) {
-      setValue("organizationId", 0);
+      // setValue("organizationId", 0);
       prevDistrictId.current = districtId;
     }
   }, [districtId, setValue]);
@@ -52,7 +52,7 @@ export const useCascadeReset = ({
     }
 
     if (prevOrgTypeId.current !== organizationTypeId) {
-      setValue("organizationId", 0);
+      // setValue("organizationId", 0);
       prevOrgTypeId.current = organizationTypeId;
     }
   }, [organizationTypeId, setValue]);
