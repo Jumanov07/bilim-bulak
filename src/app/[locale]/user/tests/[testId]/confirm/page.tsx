@@ -84,12 +84,12 @@ const Confirm = () => {
   return (
     <section className="animate-fade-in max-w-400 m-auto">
       <div className="p-5">
-        <h1 className="font-bold text-2xl leading-tight">{content.title}</h1>
+        {/* <h1 className="font-bold text-2xl leading-tight">{content.title}</h1> */}
 
         <div className="h-5" />
 
         <div className="text-neutral-700 text-sm md:text-xl leading-relaxed space-y-4">
-          <p>{content.p1}</p>
+          {/* <p>{content.p1}</p> */}
           <p>{content.p2}</p>
           <p>{content.p3}</p>
           <p>{content.p4}</p>
@@ -123,7 +123,7 @@ const Confirm = () => {
               onClick={onNo}
               className={cn(
                 "rounded-xl bg-neutral-100 text-neutral-800 font-medium",
-                "text-sm md:text-xl py-3.5 md:py-4.5 h-fit px-8"
+                "text-sm md:text-xl py-3.5 md:py-4.5 h-fit px-8",
               )}
             >
               {content.no}
@@ -134,7 +134,7 @@ const Confirm = () => {
               isDisabled={!testId}
               className={cn(
                 "rounded-xl bg-blue-700 text-white font-medium",
-                "text-sm md:text-xl py-3.5 md:py-4.5 h-fit px-8"
+                "text-sm md:text-xl py-3.5 md:py-4.5 h-fit px-8",
               )}
             >
               {content.yes}

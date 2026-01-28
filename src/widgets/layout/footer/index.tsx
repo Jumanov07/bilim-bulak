@@ -18,7 +18,7 @@ export const Footer = () => {
         <nav className="flex flex-col md:flex-row gap-4 md:gap-2 items-start justify-between">
           <div>
             <div className="flex items-center gap-4">
-              <Image src="/icons/moe.svg" alt="Logo" width={60} height={60} />
+              {/* <Image src="/icons/moe.svg" alt="Logo" width={60} height={60} /> */}
               <Image
                 src="/icons/bilgirim.svg"
                 alt="Logo"
@@ -27,9 +27,9 @@ export const Footer = () => {
               />
             </div>
 
-            <p className="text-sm md:text-lg font-medium mt-4 md:w-100">
+            {/* <p className="text-sm md:text-lg font-medium mt-4 md:w-100">
               {t("about")}
-            </p>
+            </p> */}
           </div>
 
           <ul className="flex flex-col gap-4">
